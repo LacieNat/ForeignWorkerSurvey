@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/surveyRadioGrp">
+
+    </RadioGroup>
+    <EditText
+        android:id="@+id/othersEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/surveyRadioGrp"
+        android:layout_toRightOf="@id/surveyRadioGrp"
+        android:width="800px" />
+</RelativeLayout>
+

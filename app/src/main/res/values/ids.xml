@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="mainInput" type="id"/>
+    <item name="surveyNextBtn" type="id"/>
+    <item name="surveyPrevBtn" type="id"/>
+    <item name="noResponse" type="id"/>
+    <item name="dontKnow" type="id"/>
+    <item name="spinnerDropDown" type="id"/>
+    <item name="noResponseRg" type="id"/>
+    <item name="yearLinearLayout" type="id"/>
+    <item name="monthDouble" type="id"/>
+    <item name="yearDouble" type="id"/>
+    <item name="otherBox" type="id"/>
+</resources>
