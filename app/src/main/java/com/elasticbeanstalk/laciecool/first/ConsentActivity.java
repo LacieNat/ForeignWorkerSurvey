@@ -72,22 +72,20 @@ public class ConsentActivity extends Activity {
     }
 
     public void nextClick(View view) {
-        Intent preIntent = getIntent();
-        int pid = preIntent.getIntExtra("pid", -1);
+        String pid = getSharedPreferences("sessionData", MODE_PRIVATE).getString("pid", "");
 
         //save name
-        if(pid!=-1) {
+        if(!pid.equals("")) {
             CollectedResults cr = CollectedResults.getInstance(this);
             SQLiteDatabase db = cr.getWritableDatabase();
             ContentValues val = new ContentValues();
             EditText et = (EditText) findViewById(R.id.name);
 
             val.put("name", et.getText().toString());
-            db.update("RESULTS", val, "pid=?", new String[]{Integer.toString(pid)});
+            db.update("RESULTS", val, "pid=?", new String[]{pid});
         }
 
         Intent i = new Intent(this, SurveyQnsDisplayActivity.class);
-        i.putExtra("pid", pid);
         startActivity(i);
     }
 

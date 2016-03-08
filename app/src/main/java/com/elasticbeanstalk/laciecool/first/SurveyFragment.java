@@ -2,7 +2,9 @@ package com.elasticbeanstalk.laciecool.first;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,6 +69,7 @@ public class SurveyFragment extends Fragment {
     private static final String rating = "rating";
 
     private ArrayList<String> answers;
+    private HashMap<Integer, Integer> qnsWithPgJump;
 
     private OnFragmentInteractionListener mListener;
 
@@ -120,6 +123,16 @@ public class SurveyFragment extends Fragment {
             ind = getArguments().getInt("index");
         }
         answers = new ArrayList<String>();
+        qnsWithPgJump = new HashMap<Integer, Integer>();
+        fillQnsWithPgJump();
+    }
+
+    public void fillQnsWithPgJump() {
+        // default all to no page jump first
+        qnsWithPgJump.put(8, 1);
+        qnsWithPgJump.put(11, 1);
+        qnsWithPgJump.put(24, 1);
+        qnsWithPgJump.put(34, 1);
     }
 
     @Override
@@ -171,9 +184,6 @@ public class SurveyFragment extends Fragment {
             createKnowledgeView(v);
         }
 
-        else {
-            createQuestionViews(v);
-        }
         return v;
     }
 
@@ -631,200 +641,200 @@ public class SurveyFragment extends Fragment {
         return child;
     }
 
-    public void createQuestionViews(View v) {
-        LinearLayout l = (LinearLayout) v.findViewById(R.id.survey_fragment_layout);
-
-        Bundle args = getArguments();
-
-        //if ratings not null render rating view
-        if(!args.getString(rating).equals(null) && !args.getString(rating).equals("")) {
-            String ratings[] = args.getString(rating).split("/");
-
-            if(ratings.length==2) {
-                View child = LayoutInflater.from(getActivity()).inflate(R.layout.rating, null);
-                TextView leftR = (TextView) child.findViewById(R.id.leftRating);
-                TextView rightR = (TextView) child.findViewById(R.id.rightRating);
-
-                leftR.setText(ratings[0]);
-                rightR.setText(ratings[1]);
-
-                l.addView(child);
-            }
-        }
-
-
-        // if numofinput is more than 0, then add edit text
-        else if(args.getInt(numOfInput) == 1) {
-            EditText editInput = new EditText(getActivity());
-            editInput.setWidth(300);
-            editInput.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            l.addView(editInput, 2);
-        }
-        // if numofinput is more than 1
-        else if(args.getInt(numOfInput) > 1) {
-            String units[] = args.getString(SurveyFragment.units).split("/");
-            LinearLayout ll = new LinearLayout(getActivity());
-            ll.setOrientation(LinearLayout.HORIZONTAL);
-
-            for(int i=0; i<args.getInt(numOfInput); i++) {
-
-                EditText editInput = new EditText(getActivity());
-                editInput.setWidth(150);
-                editInput.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                ll.addView(editInput);
-
-                if(units.length>i && !units[i].equals("")) {
-                    TextView tv = new TextView(getActivity());
-                    tv.setTextSize(17);
-                    tv.setTextColor(Color.BLACK);
-                    tv.setText(units[i]);
-                    ll.addView(tv);
-                }
-            }
-
-            l.addView(ll);
-        }
-
-        //if qns has options display options
-        if(args.getBoolean(hasOptions)) {
-            ArrayList<Options> opts = args.getParcelableArrayList(options);
-
-            //render views depending on option type
-            //if option type is checkbox
-            if(args.getString(optionType).equals("CHECKBOX")) {
-
-                for(int i=0; i<opts.size(); i++) {
-                    LinearLayout rl = new LinearLayout(getActivity());
-                    rl.setOrientation(LinearLayout.HORIZONTAL);
-                    rl.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-                    CheckBox cb = new CheckBox(getActivity());
-                    TextView tv = new TextView(getActivity());
-                    tv.setText(opts.get(i).getOption());
-                    tv.setTextColor(Color.BLACK);
-
-                    cb.setTag(opts.get(i).getValue());
-
-                    rl.addView(cb);
-                    rl.addView(tv);
-
-                    //if option has input
-                    if(opts.get(i).getNumOfInput()==1) {
-                        EditText e = new EditText(getActivity());
-                        e.setWidth(150);
-                        rl.addView(e);
-                    }
-
-                    l.addView(rl);
-                }
-            }
-
-            //if option type is dropdown
-            else if(args.getString(optionType).equals("DROPDOWN")) {
-
-                Spinner sp = new Spinner(getActivity());
-                ArrayAdapter<String> spinnerArr = new ArrayAdapter<String>(getActivity(), R.layout.array_adapter_view);
-                spinnerArr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                for(int i=0; i<opts.size(); i++) {
-                    spinnerArr.add(opts.get(i).getOption());
-                }
-
-                sp.setAdapter(spinnerArr);
-                l.addView(sp);
-            }
-
-            //if option type is lettering
-            else if(args.getString(optionType).equals("LETTER")) {
-                String ls[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"};
-
-                for(int i=0; i<opts.size(); i++) {
-                    LinearLayout letterLayout = new LinearLayout(getActivity());
-                    letterLayout.setOrientation(LinearLayout.HORIZONTAL);
-                    TextView tv = new TextView(getActivity());
-                    tv.setText(ls[i] + ". " + opts.get(i).getOption());
-                    letterLayout.addView(tv);
-
-                    if(opts.get(i).getNumOfInput()>0) {
-                        for(int j=0; j<opts.get(i).getNumOfInput(); j++) {
-                            EditText et = new EditText(getActivity());
-                            et.setWidth(100);
-                            letterLayout.addView(et);
-
-//                            if(units.length > j) {
-//                                TextView u = new TextView(getActivity());
-//                                u.setText(units[j]);
-//                                letterLayout.addView(u);
-//                            }
-                        }
-                    }
-
-                    l.addView(letterLayout);
-
-                }
-            }
-
-            else {
-                boolean optFlag = false;
-                View child;
-
-                //find if one of the option has input to determine which view to inflate
-                for(int i=0; i<opts.size();i++) {
-                    if(opts.get(i).getNumOfInput()==1) {
-                        optFlag = true;
-                    }
-                }
-
-                if(optFlag) {
-                    child = LayoutInflater.from(getActivity()).inflate(R.layout.radio_with_input, null);
-                } else {
-                    child = LayoutInflater.from(getActivity()).inflate(R.layout.radio_without_input, null);
-                }
-
-                //for each option, add into radio group
-                RadioGroup rg = (RadioGroup) child.findViewById(R.id.surveyRadioGrp);
-                for(int i=0; i<opts.size(); i++) {
-                    RadioButton rb = new RadioButton(getActivity());
-                    rb.setText(opts.get(i).getOption());
-                    rb.setTag(opts.get(i).getValue());
-                    rg.addView(rb);
-                }
-
-                l.addView(child);
-            }
-
-        }
-
-        LinearLayout btnLayout = new LinearLayout(getActivity());
-        btnLayout.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        btnLayout.setLayoutParams(p);
-        btnLayout.setGravity(Gravity.RIGHT);
-
-        Button btnN = new Button(getActivity());
-        Button btnP = new Button(getActivity());
-        btnN.setText("Next");
-        btnN.setGravity(Gravity.RIGHT);
-
-        btnP.setText("Previous");
-        btnP.setGravity(Gravity.RIGHT);
-
-        btnN.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                onNext(v);
-            }
-        });
-        btnP.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                onPrev(v);
-            }
-        });
-
-        btnLayout.addView(btnP);
-        btnLayout.addView(btnN);
-
-        l.addView(btnLayout);
-
-    }
+//    public void createQuestionViews(View v) {
+//        LinearLayout l = (LinearLayout) v.findViewById(R.id.survey_fragment_layout);
+//
+//        Bundle args = getArguments();
+//
+//        //if ratings not null render rating view
+//        if(!args.getString(rating).equals(null) && !args.getString(rating).equals("")) {
+//            String ratings[] = args.getString(rating).split("/");
+//
+//            if(ratings.length==2) {
+//                View child = LayoutInflater.from(getActivity()).inflate(R.layout.rating, null);
+//                TextView leftR = (TextView) child.findViewById(R.id.leftRating);
+//                TextView rightR = (TextView) child.findViewById(R.id.rightRating);
+//
+//                leftR.setText(ratings[0]);
+//                rightR.setText(ratings[1]);
+//
+//                l.addView(child);
+//            }
+//        }
+//
+//
+//        // if numofinput is more than 0, then add edit text
+//        else if(args.getInt(numOfInput) == 1) {
+//            EditText editInput = new EditText(getActivity());
+//            editInput.setWidth(300);
+//            editInput.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//            l.addView(editInput, 2);
+//        }
+//        // if numofinput is more than 1
+//        else if(args.getInt(numOfInput) > 1) {
+//            String units[] = args.getString(SurveyFragment.units).split("/");
+//            LinearLayout ll = new LinearLayout(getActivity());
+//            ll.setOrientation(LinearLayout.HORIZONTAL);
+//
+//            for(int i=0; i<args.getInt(numOfInput); i++) {
+//
+//                EditText editInput = new EditText(getActivity());
+//                editInput.setWidth(150);
+//                editInput.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//                ll.addView(editInput);
+//
+//                if(units.length>i && !units[i].equals("")) {
+//                    TextView tv = new TextView(getActivity());
+//                    tv.setTextSize(17);
+//                    tv.setTextColor(Color.BLACK);
+//                    tv.setText(units[i]);
+//                    ll.addView(tv);
+//                }
+//            }
+//
+//            l.addView(ll);
+//        }
+//
+//        //if qns has options display options
+//        if(args.getBoolean(hasOptions)) {
+//            ArrayList<Options> opts = args.getParcelableArrayList(options);
+//
+//            //render views depending on option type
+//            //if option type is checkbox
+//            if(args.getString(optionType).equals("CHECKBOX")) {
+//
+//                for(int i=0; i<opts.size(); i++) {
+//                    LinearLayout rl = new LinearLayout(getActivity());
+//                    rl.setOrientation(LinearLayout.HORIZONTAL);
+//                    rl.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                        LinearLayout.LayoutParams.WRAP_CONTENT));
+//                    CheckBox cb = new CheckBox(getActivity());
+//                    TextView tv = new TextView(getActivity());
+//                    tv.setText(opts.get(i).getOption());
+//                    tv.setTextColor(Color.BLACK);
+//
+//                    cb.setTag(opts.get(i).getValue());
+//
+//                    rl.addView(cb);
+//                    rl.addView(tv);
+//
+//                    //if option has input
+//                    if(opts.get(i).getNumOfInput()==1) {
+//                        EditText e = new EditText(getActivity());
+//                        e.setWidth(150);
+//                        rl.addView(e);
+//                    }
+//
+//                    l.addView(rl);
+//                }
+//            }
+//
+//            //if option type is dropdown
+//            else if(args.getString(optionType).equals("DROPDOWN")) {
+//
+//                Spinner sp = new Spinner(getActivity());
+//                ArrayAdapter<String> spinnerArr = new ArrayAdapter<String>(getActivity(), R.layout.array_adapter_view);
+//                spinnerArr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                for(int i=0; i<opts.size(); i++) {
+//                    spinnerArr.add(opts.get(i).getOption());
+//                }
+//
+//                sp.setAdapter(spinnerArr);
+//                l.addView(sp);
+//            }
+//
+//            //if option type is lettering
+//            else if(args.getString(optionType).equals("LETTER")) {
+//                String ls[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"};
+//
+//                for(int i=0; i<opts.size(); i++) {
+//                    LinearLayout letterLayout = new LinearLayout(getActivity());
+//                    letterLayout.setOrientation(LinearLayout.HORIZONTAL);
+//                    TextView tv = new TextView(getActivity());
+//                    tv.setText(ls[i] + ". " + opts.get(i).getOption());
+//                    letterLayout.addView(tv);
+//
+//                    if(opts.get(i).getNumOfInput()>0) {
+//                        for(int j=0; j<opts.get(i).getNumOfInput(); j++) {
+//                            EditText et = new EditText(getActivity());
+//                            et.setWidth(100);
+//                            letterLayout.addView(et);
+//
+////                            if(units.length > j) {
+////                                TextView u = new TextView(getActivity());
+////                                u.setText(units[j]);
+////                                letterLayout.addView(u);
+////                            }
+//                        }
+//                    }
+//
+//                    l.addView(letterLayout);
+//
+//                }
+//            }
+//
+//            else {
+//                boolean optFlag = false;
+//                View child;
+//
+//                //find if one of the option has input to determine which view to inflate
+//                for(int i=0; i<opts.size();i++) {
+//                    if(opts.get(i).getNumOfInput()==1) {
+//                        optFlag = true;
+//                    }
+//                }
+//
+//                if(optFlag) {
+//                    child = LayoutInflater.from(getActivity()).inflate(R.layout.radio_with_input, null);
+//                } else {
+//                    child = LayoutInflater.from(getActivity()).inflate(R.layout.radio_without_input, null);
+//                }
+//
+//                //for each option, add into radio group
+//                RadioGroup rg = (RadioGroup) child.findViewById(R.id.surveyRadioGrp);
+//                for(int i=0; i<opts.size(); i++) {
+//                    RadioButton rb = new RadioButton(getActivity());
+//                    rb.setText(opts.get(i).getOption());
+//                    rb.setTag(opts.get(i).getValue());
+//                    rg.addView(rb);
+//                }
+//
+//                l.addView(child);
+//            }
+//
+//        }
+//
+//        LinearLayout btnLayout = new LinearLayout(getActivity());
+//        btnLayout.setOrientation(LinearLayout.HORIZONTAL);
+//        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        btnLayout.setLayoutParams(p);
+//        btnLayout.setGravity(Gravity.RIGHT);
+//
+//        Button btnN = new Button(getActivity());
+//        Button btnP = new Button(getActivity());
+//        btnN.setText("Next");
+//        btnN.setGravity(Gravity.RIGHT);
+//
+//        btnP.setText("Previous");
+//        btnP.setGravity(Gravity.RIGHT);
+//
+//        btnN.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                onNext(v);
+//            }
+//        });
+//        btnP.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                onPrev(v);
+//            }
+//        });
+//
+//        btnLayout.addView(btnP);
+//        btnLayout.addView(btnN);
+//
+//        l.addView(btnLayout);
+//
+//    }
 
     public View createNextAndPrevBtns() {
         LinearLayout btnLayout = new LinearLayout(getActivity());
@@ -891,7 +901,6 @@ public class SurveyFragment extends Fragment {
             case 7:
                 updateKnowData();
                 break;
-
             case 8:
                 updateContData();
                 break;
@@ -900,47 +909,81 @@ public class SurveyFragment extends Fragment {
         //if last fragment, generate random number, start new activity.
         int childCount = ((SurveyQnsDisplayActivity) getActivity()).getFragmentSize();
         if(ind == childCount - 1) {
-            int randNum = getRandNum();
+            int randNum = (getActivity()).getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("randNum", -1);
             //save randNum
-            ((SurveyQnsDisplayActivity) getActivity()).saveRandomNum(randNum);
+//            ((SurveyQnsDisplayActivity) getActivity()).saveRandomNum(randNum);
             startActivityWithRandomNum(randNum);
         }
 
+        else if(qnsWithPgJump.containsKey(qId)) {
+            int ans = qnsWithPgJump.get(qId);
+            if(ans == 1) {
+                flipNextPage();
+            } else {
+                skipNextPage();
+            }
+        }
         //else set the next page as current page
         else {
-            ViewPager vp = (ViewPager) getActivity().findViewById(R.id.viewpager);
-            vp.setCurrentItem(ind + 1);
+            flipNextPage();
         }
 
     }
 
+    public void flipNextPage() {
+        ViewPager vp = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        vp.setCurrentItem(ind + 1);
+    }
+
+    public void flipPrevPage() {
+        ViewPager vp = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        vp.setCurrentItem(ind-1);
+    }
+
+    public void skipNextPage() {
+        ViewPager vp = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        vp.setCurrentItem(ind + 2);
+    }
+
+    public void skipPrevPage() {
+        ViewPager vp = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        vp.setCurrentItem(ind - 2);
+    }
+
+    public void onPrev(View v) {
+        if(qnsWithPgJump.containsKey(qId-2)) {
+            int ans = qnsWithPgJump.get(qId-2);
+
+            if(ans == 1) {
+                flipPrevPage();
+            } else {
+                skipPrevPage();
+            }
+        }
+        flipPrevPage();
+    }
+
     public void startActivityWithRandomNum(int randNum) {
-        Intent i;
+        Intent i = new Intent(getActivity(), PhoneNumberActivity.class);
         switch (randNum) {
+
             case 1:
-                i = new Intent(getActivity(), EndActivity.class);
                 startActivity(i);
                 break;
             case 2:
                 HashMap<String, String> userAns = ((SurveyQnsDisplayActivity) getActivity()).getRandomTwo();
                 HashMap<String, String> correctAns = ((SurveyQnsDisplayActivity) getActivity()).getCorrectAns();
-                i = new Intent(getActivity(), RandomTwoActivity.class);
 
-                i.putExtra("pid", ((SurveyQnsDisplayActivity) getActivity()).getPid());
                 i.putExtra("userAns", userAns);
                 i.putExtra("correctAns", correctAns);
 
                 startActivity(i);
                 break;
+            case 3:
+                HashMap<String, String> uAns = ((SurveyQnsDisplayActivity) getActivity()).getRandomThree();
+                i.putExtra("userAns", uAns);
+                startActivity(i);
         }
-    }
-
-    private int getRandNum() {
-        Random rand = new Random();
-        int randomNum = rand.nextInt(5) + 1;
-
-        return 2;
-        //return randomNum;
     }
 
     public boolean isResponseBtnChecked() {
@@ -979,6 +1022,16 @@ public class SurveyFragment extends Fragment {
         answers.clear();
 
         if(isResponseBtnChecked()) {
+            ((SurveyQnsDisplayActivity) getActivity()).putRandomThree(
+                    Integer.toString(qId),
+                    "99");
+            return;
+        }
+
+        if(isResponseOrDoesNotKnowBtnChecked()) {
+            ((SurveyQnsDisplayActivity) getActivity()).putRandomThree(
+                    Integer.toString(qId),
+                    "-1");
             return;
         }
 
@@ -1182,14 +1235,25 @@ public class SurveyFragment extends Fragment {
         //save radio input next
         RadioGroup rg = (RadioGroup) vPtr.findViewById(R.id.surveyRadioGrp);
         if(rg!=null && rg.getCheckedRadioButtonId()!=-1) {
-            answers.add(Integer.toString(rg.getCheckedRadioButtonId()));
+            int checked = rg.getCheckedRadioButtonId();
+            answers.add(Integer.toString(checked));
 
             //if groupId is Knowledge, save answers into hashmap
             if(gId == 7) {
-                int checked = rg.getCheckedRadioButtonId();
                 ((SurveyQnsDisplayActivity) getActivity()).putRandomTwo(
                         Integer.toString(qId),
                         Integer.toString(checked));
+            }
+
+            if(qId == 31) {
+                ((SurveyQnsDisplayActivity) getActivity()).putRandomThree(
+                        Integer.toString(qId),
+                        Integer.toString(checked));
+            }
+
+            //if qnsWithPageJump contains qnsId, update qnsWithPageJump the answer
+            if(qnsWithPgJump.containsKey(qId)) {
+                qnsWithPgJump.put(qId, checked);
             }
         }
     }
@@ -1223,6 +1287,13 @@ public class SurveyFragment extends Fragment {
         //save main input first if exists
         EditText et = (EditText) vPtr.findViewById(R.id.mainInput);
         if(et !=null && !et.getText().toString().equals("")) {
+
+            if(qId == 22 || qId == 21 || qId == 81) {
+                ((SurveyQnsDisplayActivity) getActivity()).putRandomThree(
+                        Integer.toString(qId),
+                        et.getText().toString());
+            }
+
             answers.add(et.getText().toString());
         }
     }
@@ -1275,11 +1346,6 @@ public class SurveyFragment extends Fragment {
             answers.add(et1.getText().toString());
             answers.add(et2.getText().toString());
         }
-    }
-
-    public void onPrev(View v) {
-        ViewPager vp = (ViewPager) getActivity().findViewById(R.id.viewpager);
-        vp.setCurrentItem(ind-1);
     }
 
     public ArrayList<String> getAnswers() {

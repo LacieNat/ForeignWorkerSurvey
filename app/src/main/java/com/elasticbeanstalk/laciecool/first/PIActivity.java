@@ -27,11 +27,7 @@ public class PIActivity extends Activity {
     }
 
     public void onNextClick(View v) {
-        Intent preIntent = getIntent();
-        int pid = preIntent.getIntExtra("pid", -1);
-
         Intent i = new Intent(this, ConsentActivity.class);
-        i.putExtra("pid", pid);
         startActivity(i);
     }
 

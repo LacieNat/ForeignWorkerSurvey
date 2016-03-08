@@ -24,6 +24,7 @@ public class RandomTwoActivityFragment extends Fragment {
     private static final String userAns = "userAns";
     private static final String correctAns = "correctAns";
     private static final String qns = "qns;";
+    private static final String index = "index";
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,11 +39,31 @@ public class RandomTwoActivityFragment extends Fragment {
         b.putString(RandomTwoActivityFragment.userAns, userAns);
         b.putString(RandomTwoActivityFragment.correctAns, correctAns);
         b.putString(RandomTwoActivityFragment.qns, qns);
-        b.putInt("index", pageIndex);
+        b.putInt(RandomTwoActivityFragment.index, pageIndex);
 
         fragment.setArguments(b);
         return fragment;
     }
+
+//    public static RandomTwoActivityFragment phoneInstance(String num) {
+//        RandomTwoActivityFragment fragment = new RandomTwoActivityFragment();
+//        Bundle b = new Bundle(1);
+//        b.putInt(RandomTwoActivityFragment.index, 0);
+//        b.putString(RandomTwoActivityFragment.phoneNum, num);
+//
+//        fragment.setArguments(b);
+//        return fragment;
+//    }
+//
+//    public static RandomTwoActivityFragment infoInstance() {
+//        RandomTwoActivityFragment fragment = new RandomTwoActivityFragment();
+//        Bundle b = new Bundle(1);
+//        b.putInt(RandomTwoActivityFragment.index, 1);
+//        // put radio array
+//
+//        fragment.setArguments(b);
+//        return fragment;
+//    }
 
     public RandomTwoActivityFragment() {
     }
@@ -51,12 +72,10 @@ public class RandomTwoActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments()!=null) {
-            ua = getArguments().getString(RandomTwoActivityFragment.userAns);
-            ca = getArguments().getString(RandomTwoActivityFragment.correctAns);
-            q = getArguments().getString(RandomTwoActivityFragment.qns);
-            pi = getArguments().getInt("index");
-        }
+        ua = getArguments().getString(RandomTwoActivityFragment.userAns);
+        ca = getArguments().getString(RandomTwoActivityFragment.correctAns);
+        q = getArguments().getString(RandomTwoActivityFragment.qns);
+        pi = getArguments().getInt(RandomTwoActivityFragment.index);
 
     }
 
@@ -70,30 +89,30 @@ public class RandomTwoActivityFragment extends Fragment {
         resultQns.setText(q);
         TextView userAnsText = (TextView) v.findViewById(R.id.userAns);
 
-        if(ua == null || ca == null || ua.equals(null) || ca.equals(null)){
+        if (ua == null || ca == null || ua.equals(null) || ca.equals(null)) {
             Intent i = new Intent(getActivity(), EndActivity.class);
             startActivity(i);
             return null;
         }
 
-        if(ua.equals("1")) {
+        if (ua.equals("1")) {
             userAnsText.setText("True");
-        } else if(ua.equals("99")) {
+        } else if (ua.equals("99")) {
             userAnsText.setText("No response");
         } else {
             userAnsText.setText("False");
         }
         TextView correctAnsText = (TextView) v.findViewById(R.id.correctAns);
 
-        if(ca.equals("1")) {
+        if (ca.equals("1")) {
             correctAnsText.setText("True");
-        } else if(ca.equals("99")) {
+        } else if (ca.equals("99")) {
             correctAnsText.setText("No response");
         } else {
             correctAnsText.setText("False");
         }
 
-        if(ua.equals(ca)) {
+        if (ua.equals(ca)) {
             userAnsText.setTextColor(Color.BLUE);
         } else {
             userAnsText.setTextColor(Color.RED);

@@ -32,7 +32,7 @@ public class CollectedResults extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table RESULTS (pid INTEGER PRIMARY KEY, location INTEGER, date INTEGER, startTime INTEGER, introAns VARCHAR(255), name VARCHAR(255), surveyAns VARCHAR(255), randNum INTEGER, endTime INTEGER)");
+        db.execSQL("create table RESULTS (pid VARCHAR(255) PRIMARY KEY, date INTEGER, startTime INTEGER, introAns VARCHAR(255), name VARCHAR(255), surveyAns VARCHAR(255), randNum INTEGER, phoneRandNum INTEGER, endTime INTEGER)");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

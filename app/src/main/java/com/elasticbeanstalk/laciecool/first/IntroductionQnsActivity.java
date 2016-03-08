@@ -2,7 +2,9 @@ package com.elasticbeanstalk.laciecool.first;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
@@ -19,17 +21,20 @@ import android.view.View;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.TimeZone;
 
 
 public class IntroductionQnsActivity extends FragmentActivity {
     IntroPageAdaptor spa;
     QnsViewPager vp;
-    SurveySQL db;
     User u;
     CollectedResults cr;
-    public static int userId = 1;
 
     private static final String introQns1 = "Todays’ survey will take about 30 minutes. Are you willing to participate in the survey today?";
     private static final String introQns2 = "Will you be able to provide us with the phone number at which we can contact you in 6 months?";
@@ -45,10 +50,60 @@ public class IntroductionQnsActivity extends FragmentActivity {
         vp = (QnsViewPager) findViewById(R.id.viewpagerintro);
         vp.setAdapter(spa);
 
-        u = new User(userId, 1, 1);
+        setUserId();
         cr = CollectedResults.getInstance(this);
-        userId++;
 
+    }
+
+    public void setUserId() {
+        SharedPreferences sp = getSharedPreferences("sessionData", MODE_PRIVATE);
+        SharedPreferences.Editor e = sp.edit();
+
+        int userId = sp.getInt("userId", -1);
+        int date = sp.getInt("date", -1);
+
+        //if userId doesnt exist, set as 1
+        if(userId == -1) {
+            e.putInt("userId", 1);
+            userId = 1;
+        }
+
+        //if userId exist, check if it is a new day
+        else if(date != -1) {
+            Date d = new Date();
+            DateFormat df = new SimpleDateFormat("dd");
+            df.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+            int newDate = Integer.parseInt(df.format(d));
+
+            //if it is a new day, reset userId
+            if(date != newDate) {
+                e.putInt("userId", 1);
+                userId = 1;
+                setDate();
+            }
+        }
+
+        else if(date == -1) {
+            setDate();
+        }
+
+
+
+        u = new User(userId, 1);
+        e.putInt("userId", userId+1);
+        e.commit();
+    }
+
+    public void setDate() {
+        Date d = new Date();
+        DateFormat df = new SimpleDateFormat("dd");
+        df.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+
+        SharedPreferences sp = getSharedPreferences("sessionData", MODE_PRIVATE);
+        SharedPreferences.Editor e = sp.edit();
+
+        e.putInt("date", Integer.parseInt(df.format(d)));
+        e.commit();
     }
 
     @Override
@@ -60,22 +115,54 @@ public class IntroductionQnsActivity extends FragmentActivity {
     public void saveData() {
         SQLiteDatabase db = cr.getWritableDatabase();
         ContentValues v = new ContentValues();
-        v.put("location", u.getLocation());
         v.put("date", u.getDate());
         v.put("startTime", u.getStartTime());
+        v.put("randNum", generateRandNum());
+        v.put("phoneRandNum", generatePhoneRandNum());
 
         //insert introanswers
         JSONObject json = new JSONObject(u.getIntroAns());
         v.put("introAns", json.toString());
 
-        int pid = u.getPid();
-        int numOfRowsAffected = db.update("RESULTS", v, "pid=?", new String[] { Integer.toString(u.getPid()) });
+        String pid = u.getPid();
+        SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor e = sp.edit();
+        e.putString("pid", pid);
+        e.commit();
+
+        int numOfRowsAffected = db.update("RESULTS", v, "pid=?", new String[] { u.getPid()});
 
         if(numOfRowsAffected == 0) {
             v.put("pid", pid);
             db.insert("RESULTS", null, v);
         }
 
+    }
+
+    public int generateRandNum() {
+        Random rand = new Random();
+        int randomNum = rand.nextInt(5) + 1;
+
+        SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor e = sp.edit();
+        //e.putInt("randNum", randomNum);
+        e.putInt("randNum", 3);
+        e.commit();
+
+        return 3;
+        //return randomNum;
+    }
+
+    public int generatePhoneRandNum() {
+        Random rand = new Random();
+        int randomNum = rand.nextInt(5) + 1;
+
+        SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor e = sp.edit();
+        e.putInt("phoneRandNum", randomNum);
+        e.commit();
+
+        return randomNum;
     }
 
     @Override
@@ -112,7 +199,6 @@ public class IntroductionQnsActivity extends FragmentActivity {
             vp.setCurrentItem(currentItem + 1);
         } else {
             Intent j = new Intent(this, PIActivity.class);
-            j.putExtra("pid", u.getPid());
             startActivity(j);
         }
     }

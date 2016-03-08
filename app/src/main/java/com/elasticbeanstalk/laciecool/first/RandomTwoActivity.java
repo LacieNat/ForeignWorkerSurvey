@@ -19,7 +19,8 @@ public class RandomTwoActivity extends FragmentActivity {
     SurveyPageAdaptor spa;
     SurveySQL db;
     CollectedResults cr;
-    int pid;
+    String pid;
+    String phoneNum;
     HashMap<String, String> userAns;
     HashMap<String, String> correctAns;
     List<Fragment> ls;
@@ -31,9 +32,12 @@ public class RandomTwoActivity extends FragmentActivity {
 
         //get and set user pid
         Intent preIntent = getIntent();
-        pid = preIntent.getIntExtra("pid", -1);
+        pid = getSharedPreferences("sessionData", MODE_PRIVATE).getString("pid", "");
+
+
         userAns = (HashMap<String, String>) preIntent.getSerializableExtra("userAns");
         correctAns = (HashMap<String, String>) preIntent.getSerializableExtra("correctAns");
+        phoneNum = preIntent.getStringExtra("phoneNum");
 
         List<Fragment> fr = getFragments();
         ls = fr;
@@ -51,11 +55,11 @@ public class RandomTwoActivity extends FragmentActivity {
     public List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
         SurveySQL.forceDatabaseReload(this);
-        db = new SurveySQL(this);
 
+        db = new SurveySQL(this);
         Cursor cQns = db.getSurveyQnsInOrder(7);
 
-        for(int i=0; i<cQns.getCount(); i++) {
+        for(int i=0; i<5; i++) {
             String qns = cQns.getString(cQns.getColumnIndexOrThrow("qns"));
             int qnsId = cQns.getInt(cQns.getColumnIndexOrThrow("id"));
             fList.add(RandomTwoActivityFragment.newInstance(qns, userAns.get(Integer.toString(qnsId)), correctAns.get(Integer.toString(qnsId)), i));

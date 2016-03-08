@@ -11,7 +11,7 @@
     <string name="addresses">Addresses</string>
     <string name="title_activity_display_message">Learning</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_introduction">IntroductionActivity</string>
 
@@ -41,4 +41,6 @@ I hereby acknowledge that:\n\n
 I hereby acknowledge that the above research has been explained to me and my signature is my acknowledgement that I have agreed to take part in this research.\n\n
     </string>
     <string name="title_activity_random_two">RandomTwoActivity</string>
+    <string name="title_activity_random_three">RandomThreeActivity</string>
+    <string name="title_activity_phone_num_info">PhoneNumInfoActivity</string>
 </resources>

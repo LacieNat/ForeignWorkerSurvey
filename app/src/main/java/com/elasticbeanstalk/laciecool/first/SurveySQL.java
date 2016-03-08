@@ -50,6 +50,18 @@ public class SurveySQL extends SQLiteAssetHelper {
         return c;
     }
 
+    public Cursor getSurveyQnsFromQnsId(int qId) {
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        qb.setTables(TABLES.QNS);
+
+        Cursor c = qb.query(db, null, "id=" + qId, null, null, null, "ord ASC");
+        c.moveToFirst();
+
+        return c;
+    }
+
     public Cursor getOptionsFromQnsId(int qnsId) {
         SQLiteDatabase db = getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();

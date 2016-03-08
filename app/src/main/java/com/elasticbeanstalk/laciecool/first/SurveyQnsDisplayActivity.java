@@ -34,14 +34,18 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
     HashMap<String, String> randomTwo;
     HashMap<String, String> correctAns;
 
+    //randomThree variables
+    HashMap<String, String> randomThree;
+
     List<Fragment> ls;
     CollectedResults cr;
-    int pid;
+    String pid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         surveyQns = new HashMap<String, String>();
         randomTwo = new HashMap<String, String>();
+        randomThree = new HashMap<String, String>();
         correctAns = new HashMap<String, String>();
         cr = CollectedResults.getInstance(this);
 
@@ -52,8 +56,7 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
         ls = fr;
 
         //get and set user pid
-        Intent preIntent = getIntent();
-        pid = preIntent.getIntExtra("pid", -1);
+        pid = getSharedPreferences("sessionData", MODE_PRIVATE).getString("pid", "");
 
         QnsViewPager vp = (QnsViewPager) findViewById(R.id.viewpager);
 
@@ -83,9 +86,15 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
         randomTwo.put(key, value);
     }
 
+    public void putRandomThree(String key, String value) {
+        randomThree.put(key, value);
+    }
+
     public HashMap<String, String> getRandomTwo() {
         return randomTwo;
     }
+
+    public HashMap<String, String> getRandomThree() { return randomThree; }
 
     public HashMap<String, String> getCorrectAns() {
         return correctAns;
@@ -117,8 +126,8 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
                 }
 
                 //store into map
-                //hm.put(Integer.toString(i), ans);
-                hm.put(((SurveyFragment) ls.get(i)).getQns(), ans );
+                hm.put(Integer.toString(i), ans);
+                //hm.put(((SurveyFragment) ls.get(i)).getQns(), ans );
 
             }
 
@@ -131,23 +140,11 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
         JSONObject json = new JSONObject(hm);
         v.put("surveyAns", json.toString());
 
-        db.update("RESULTS", v, "pid=?", new String[]{Integer.toString(pid)});
-    }
-
-    public void saveRandomNum(int num) {
-        SQLiteDatabase db = cr.getWritableDatabase();
-        ContentValues v = new ContentValues();
-        v.put("randNum", num);
-
-        db.update("RESULTS", v, "pid=?", new String[]{Integer.toString(pid)});
+        db.update("RESULTS", v, "pid=?", new String[]{pid});
     }
 
     public int getFragmentSize() {
         return ls.size();
-    }
-
-    public int getPid() {
-        return pid;
     }
 
     private List<Fragment> getFragments() {
@@ -162,11 +159,11 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
         //*** TODO: INSERT INFO PAGES ****
         //for each group
         //
-        for(int i=0; i<cGrp.getCount(); i++) {
-        //for(int i=1; i<5; i++){
+        //for(int i=0; i<cGrp.getCount(); i++) {
+        for(int i=1; i<2; i++){
             String groupName = cGrp.getString(cGrp.getColumnIndexOrThrow("title"));
             int groupId = cGrp.getInt(cGrp.getColumnIndexOrThrow("id"));
-            //groupId = 0;
+            groupId = 4;
 
             cQns = db.getSurveyQnsInOrder(groupId);
 

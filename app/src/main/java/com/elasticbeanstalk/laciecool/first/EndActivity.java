@@ -1,20 +1,44 @@
 package com.elasticbeanstalk.laciecool.first;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.logging.SimpleFormatter;
+
 
 public class EndActivity extends Activity {
-
+    CollectedResults cr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end);
+
+        cr = CollectedResults.getInstance(this);
+        saveEndTime();
+    }
+
+    public void saveEndTime() {
+        SQLiteDatabase db = cr.getWritableDatabase();
+        ContentValues v = new ContentValues();
+
+        Date d = new Date();
+        DateFormat timeFormat = new SimpleDateFormat("HHmm");
+        timeFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+        String pid = getSharedPreferences("sessionData", MODE_PRIVATE).getString("pid", "");
+
+        v.put("endTime", Integer.parseInt(timeFormat.format(d)));
+        db.update("RESULTS", v, "pid=?", new String[]{pid});
     }
 
     @Override
