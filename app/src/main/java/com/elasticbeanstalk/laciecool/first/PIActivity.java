@@ -1,14 +1,14 @@
 package com.elasticbeanstalk.laciecool.first;
 
 import android.app.Activity;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.ActionBarActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 
 public class PIActivity extends Activity {
@@ -17,6 +17,13 @@ public class PIActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pi);
+
+        SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+
+        if (sp.getInt("lang", 0) != 0) {
+            ImageView iv = (ImageView) this.findViewById(R.id.imageView2);
+            iv.setImageResource(R.drawable.sign_bahasa);
+        }
     }
 
     @Override

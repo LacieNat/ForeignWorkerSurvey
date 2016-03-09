@@ -2,7 +2,9 @@ package com.elasticbeanstalk.laciecool.first;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
@@ -156,12 +158,15 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
         Cursor cOpt;
         int pageIndex = 0;
 
+        SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+        boolean isEnglish = sp.getInt("lang", 0) == 0;
+
         //*** TODO: INSERT INFO PAGES ****
         //for each group
         //
         //for(int i=0; i<cGrp.getCount(); i++) {
         for(int i=1; i<3; i++){
-            String groupName = cGrp.getString(cGrp.getColumnIndexOrThrow("title"));
+            String groupName = isEnglish?cGrp.getString(cGrp.getColumnIndexOrThrow("title")):cGrp.getString(cGrp.getColumnIndexOrThrow("titleBahasa"));
             int groupId = cGrp.getInt(cGrp.getColumnIndexOrThrow("id"));
 
             if (i==1)
@@ -173,12 +178,13 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
 
             for(int j=0; j<cQns.getCount(); j++) {
 
-                String qns = cQns.getString(cQns.getColumnIndexOrThrow("qns"));
+
+                String qns = isEnglish?cQns.getString(cQns.getColumnIndexOrThrow("qns")):cQns.getString(cQns.getColumnIndexOrThrow("qnsBahasa"));
                 int qnsId = cQns.getInt(cQns.getColumnIndexOrThrow("id"));
                 int grpId = cQns.getInt(cQns.getColumnIndexOrThrow("grp"));
                 int numOfInput = cQns.getInt(cQns.getColumnIndexOrThrow("numOfInput"));
-                String units = cQns.getString(cQns.getColumnIndexOrThrow("units"));
-                String rating = cQns.getString(cQns.getColumnIndexOrThrow("rating"));
+                String units = isEnglish?cQns.getString(cQns.getColumnIndexOrThrow("units")):cQns.getString(cQns.getColumnIndexOrThrow("unitsBahasa"));
+                String rating = isEnglish?cQns.getString(cQns.getColumnIndexOrThrow("rating")):cQns.getString(cQns.getColumnIndexOrThrow("ratingBahasa"));
                 String optionType = cQns.getString(cQns.getColumnIndexOrThrow("optionType"));
                 boolean hasOptions = cQns.getInt(cQns.getColumnIndexOrThrow("hasOptions"))==1?true:false;
                 ArrayList<Options> arrOpt = new ArrayList<>();
@@ -190,7 +196,7 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
                     o.setAttributes(cOpt.getInt(cOpt.getColumnIndexOrThrow("id")),
                             cOpt.getInt(cOpt.getColumnIndexOrThrow("grp")),
                             cOpt.getInt(cOpt.getColumnIndexOrThrow("qnsId")),
-                            cOpt.getString(cOpt.getColumnIndexOrThrow("option")),
+                            isEnglish?cOpt.getString(cOpt.getColumnIndexOrThrow("option")):cOpt.getString(cOpt.getColumnIndexOrThrow("optionBahasa")),
                             cOpt.getString(cOpt.getColumnIndexOrThrow("units")),
                             cOpt.getInt(cOpt.getColumnIndexOrThrow("numOfInput")),
                             cOpt.getInt(cOpt.getColumnIndexOrThrow("value")));

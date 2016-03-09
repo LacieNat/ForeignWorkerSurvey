@@ -2,7 +2,9 @@ package com.elasticbeanstalk.laciecool.first;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -20,7 +22,12 @@ public class ConsentActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_consent);
+        SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+
+        if(sp.getInt("lang", 0) ==0)
+            setContentView(R.layout.activity_consent);
+        else
+            setContentView(R.layout.activity_consent_bahasa);
 
         sigView = (SignatureView) findViewById(R.id.signature_canvas);
         nameView = (EditText) findViewById(R.id.name);

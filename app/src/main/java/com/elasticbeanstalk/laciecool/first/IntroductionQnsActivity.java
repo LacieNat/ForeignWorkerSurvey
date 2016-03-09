@@ -40,6 +40,10 @@ public class IntroductionQnsActivity extends FragmentActivity {
     private static final String introQns2 = "Will you be able to provide us with the phone number at which we can contact you in 6 months?";
     private static final String introQns3 = "Will you be willing to talk to us via phone in 6 months?";
 
+    private static final String introQns1Bahasa = "Survei hari ini akan memakan waktu selama kurang lebih 30 menit. Apakah anda bersedia untuk berpartisipasi dalam survei hari ini?";
+    private static final String introQns2Bahasa = "Apakah anda dapat memberikan kami nomor telfon yang dapat kami hubungi dalam 6 bulan?";
+    private static final String introQns3Bahasa = "Apakah anda dapat menerima telfon kami dalam 6 bulan? ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +94,7 @@ public class IntroductionQnsActivity extends FragmentActivity {
 
 
         u = new User(userId, 1);
-        e.putInt("userId", userId+1);
+        e.putInt("userId", userId + 1);
         e.commit();
     }
 
@@ -212,10 +216,18 @@ public class IntroductionQnsActivity extends FragmentActivity {
     }
 
     private List<Fragment> getFragments() {
-        List<Fragment> fList = new ArrayList<Fragment>();
-        fList.add(IntroFragment.newInstance(introQns1));
-        fList.add(IntroFragment.newInstance(introQns2));
-        fList.add(IntroFragment.newInstance(introQns3));
+        List<Fragment> fList = new ArrayList<>();
+        SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+
+        if(sp.getInt("lang", 0) == 0) {
+            fList.add(IntroFragment.newInstance(introQns1));
+            fList.add(IntroFragment.newInstance(introQns2));
+            fList.add(IntroFragment.newInstance(introQns3));
+        } else {
+            fList.add(IntroFragment.newInstance(introQns1Bahasa));
+            fList.add(IntroFragment.newInstance(introQns2Bahasa));
+            fList.add(IntroFragment.newInstance(introQns3Bahasa));
+        }
 
         return fList;
     }

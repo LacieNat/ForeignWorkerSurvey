@@ -2,6 +2,8 @@ package com.elasticbeanstalk.laciecool.first;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -58,7 +60,12 @@ public class IntroFragment extends Fragment {
                              Bundle savedInstanceState) {
         String m = getArguments().getString(question);
 
-        View v = inflater.inflate(R.layout.fragment_intro, container, false);
+        boolean isEnglish = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("lang", 0) == 0;
+        View v;
+        if(isEnglish)
+            v = inflater.inflate(R.layout.fragment_intro, container, false);
+        else
+            v = inflater.inflate(R.layout.fragment_intro_bahasa, container, false);
 
         TextView quesn = (TextView) v.findViewById(R.id.introQns);
         quesn.setText(m);

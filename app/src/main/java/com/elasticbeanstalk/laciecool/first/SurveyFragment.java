@@ -122,8 +122,8 @@ public class SurveyFragment extends Fragment {
             r = getArguments().getString(SurveyFragment.rating);
             ind = getArguments().getInt("index");
         }
-        answers = new ArrayList<String>();
-        qnsWithPgJump = new HashMap<Integer, Integer>();
+        answers = new ArrayList<>();
+        qnsWithPgJump = new HashMap<>();
         fillQnsWithPgJump();
     }
 
@@ -990,9 +990,6 @@ public class SurveyFragment extends Fragment {
             case 5:
                 HashMap<String, String> userAns2 = ((SurveyQnsDisplayActivity) getActivity()).getRandomTwo();
                 HashMap<String, String> userAns3 = ((SurveyQnsDisplayActivity) getActivity()).getRandomThree();
-                HashMap<String, String> userAns5 = new HashMap<>();
-                userAns5.putAll(userAns2);
-                userAns5.putAll(userAns3);
                 i.putExtra("userAns2", userAns2);
                 i.putExtra("userAns3", userAns3);
                 i.putExtra("correctAns", ((SurveyQnsDisplayActivity) getActivity()).getCorrectAns());

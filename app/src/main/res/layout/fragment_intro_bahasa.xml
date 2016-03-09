@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="20dp"
+    android:id="@+id/survey_fragment_layout"
+    tools:context="com.elasticbeanstalk.laciecool.first.SurveyFragment"
+    android:paddingTop="50dp"
+    android:paddingLeft="20dp">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:id="@+id/introQns"
+        android:focusableInTouchMode="false"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_marginBottom="50dp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/radioYes"
+        android:id="@+id/introRadioGrp">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Iya"
+            android:id="@id/radioYes"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tidak"
+            android:id="@+id/radioNo"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Previous"
+            android:id="@+id/introPrevQnsBtn"
+            android:onClick="introPrevQns"
+            android:layout_gravity="right" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:id="@+id/introNextQnsBtn"
+            android:onClick="introNextQns"
+            android:layout_gravity="right" />
+    </LinearLayout>
+
+
+</LinearLayout>
