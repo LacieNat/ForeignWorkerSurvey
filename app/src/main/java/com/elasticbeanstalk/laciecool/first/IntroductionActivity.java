@@ -1,17 +1,36 @@
 package com.elasticbeanstalk.laciecool.first;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 
-public class IntroductionActivity extends ActionBarActivity {
+public class IntroductionActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_introduction);
+        SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+        int lang = sp.getInt("lang", 0);
+
+        setContentView(R.layout.activity_main);
+        TextView tv = (TextView) this.findViewById(R.id.intro);
+        if(lang == 1) {
+            tv.setText(R.string.introductionBahasa);
+        }
+
+    }
+
+    public void introNextClick(View view) {
+        Intent i = new Intent(this, IntroductionQnsActivity.class);
+        startActivity(i);
     }
 
     @Override

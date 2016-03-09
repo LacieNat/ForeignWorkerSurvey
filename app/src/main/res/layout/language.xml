@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="50px"
+    android:paddingTop="100px">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Choose a Language:"
+        android:id="@+id/textView10"
+        android:paddingBottom="100px" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:paddingLeft="100px"
+        android:id="@+id/language">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="English"
+            android:id="@+id/english"
+            android:textSize="50px"
+            android:paddingBottom="20px" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bahasa"
+            android:id="@+id/bahasa"
+            android:textSize="50px" />
+    </RadioGroup>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:id="@+id/introNextBtn"
+        android:layout_gravity="right"
+        android:onClick="langSelect"/>
+</LinearLayout>

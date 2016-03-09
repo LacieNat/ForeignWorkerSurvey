@@ -23,6 +23,14 @@
 
     You will be paid SGD 10 in cash for participating in the survey today. You will also be asked to participate in a short survey in 6 months and 1 year via phone. It is really important that you participate in the survey today but also that we are able to contact you via phone in 6 months and 1-year time.\n\n
     </string>
+    <string name="introductionBahasa">
+        Perkenalkan, nama saya adalah ______________. Saya bekerja sama dengan National University of Singapore dan University of Michigan. Kami sedang melakukan studi riset yang bertujuan untuk membantu PRT asing di Singapura agar dapat mendapat pekerjaan baru dengan lebih mudah. [Kami bukan berasal dari Kementerian Tenaga Kerja dan informasi yang anda berikan hari ini tidak akan disampaikan kepada kementerian, melainkan kami gunakan untuk studi kami semata.] \n\n
+
+Partisipasi anda sangatlah penting dalam mengembangkan program yang dapat mempermudah para tenaga kerja migran, terutama PRT asing yang sedang mencari pekerjaan di Singapura agar dapat menemukan pekerjaan yang baik. Pada akhirnya, studi ini akan membawa dampak baik terhadap komunitas anda secara keseluruhan.\n\n
+
+Anda akan menerima tunai sebesar SGD 10 sebagai tanda apresiasi kami akan partisipasi anda dalam survei kami hari ini. Anda juga akan diharuskan untuk berpartisipasi dalam sebuah survei singkat yang akan kami lakukan dalam 6 bulan dan 1 tahun dari sekarang melalui telfon. Kami ingin meminta kerja sama anda untuk berpartisipasi dalam survei yang akan kami lakukan melalui telfon dalam 6 bulan dan 1 tahun kemudian karena opini dan masukan anda sangatlah penting bagi studi kami.\n\n
+
+    </string>
     <string name="title_activity_end">EndActivity</string>
     <string name="title_activity_pi">PIActivity</string>
     <string name="title_activity_consent">ConsentActivity</string>

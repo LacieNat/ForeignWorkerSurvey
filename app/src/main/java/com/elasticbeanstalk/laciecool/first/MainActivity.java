@@ -1,5 +1,6 @@
 package com.elasticbeanstalk.laciecool.first;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,30 +34,43 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.language);
     }
 
-    public void introNextClick(View view) {
-        Intent i = new Intent(this, IntroductionQnsActivity.class);
+    public void langSelect(View view) {
+        SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+        int id = ((RadioGroup) this.findViewById(R.id.language)).getCheckedRadioButtonId();
+        SharedPreferences.Editor e = sp.edit();
+
+        //English: 0 and Bahasa:1
+        if(id == R.id.english) {
+            e.putInt("lang", 0);
+        } else {
+            e.putInt("lang", 1);
+        }
+
+        e.commit();
+
+        Intent i = new Intent(this, IntroductionActivity.class);
         startActivity(i);
     }
 
-    public void agreeClick(View view) {
-        setContentView(R.layout.signature);
-        sigView = (SignatureView) findViewById(R.id.signature_canvas);
-
-        sigView.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN /*&& nameFlag*/) {
-                    Button b = (Button) findViewById(R.id.btn_next);
-                    b.setEnabled(true);
-                }
-
-                return false;
-            }
-        });
+//    public void agreeClick(View view) {
+//        setContentView(R.layout.signature);
+//        sigView = (SignatureView) findViewById(R.id.signature_canvas);
+//
+//        sigView.setOnTouchListener(new View.OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_DOWN /*&& nameFlag*/) {
+//                    Button b = (Button) findViewById(R.id.btn_next);
+//                    b.setEnabled(true);
+//                }
+//
+//                return false;
+//            }
+//        });
 
 //        nameView.setOnKeyListener(new View.OnKeyListener() {
 //
@@ -79,9 +94,9 @@ public class MainActivity extends Activity {
 //            }
 //        });
 
-        Button b = (Button) findViewById(R.id.btn_next);
-        b.setEnabled(false);
-    }
+//        Button b = (Button) findViewById(R.id.btn_next);
+//        b.setEnabled(false);
+//    }
 
     public void backClick(View view) {
         setContentView(R.layout.activity_main);
