@@ -43,10 +43,10 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        surveyQns = new HashMap<String, String>();
-        randomTwo = new HashMap<String, String>();
-        randomThree = new HashMap<String, String>();
-        correctAns = new HashMap<String, String>();
+        surveyQns = new HashMap<>();
+        randomTwo = new HashMap<>();
+        randomThree = new HashMap<>();
+        correctAns = new HashMap<>();
         cr = CollectedResults.getInstance(this);
 
         super.onCreate(savedInstanceState);
@@ -160,10 +160,14 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
         //for each group
         //
         //for(int i=0; i<cGrp.getCount(); i++) {
-        for(int i=1; i<2; i++){
+        for(int i=1; i<3; i++){
             String groupName = cGrp.getString(cGrp.getColumnIndexOrThrow("title"));
             int groupId = cGrp.getInt(cGrp.getColumnIndexOrThrow("id"));
-            groupId = 4;
+
+            if (i==1)
+                groupId = 4;
+            else
+                groupId = 7;
 
             cQns = db.getSurveyQnsInOrder(groupId);
 
@@ -177,7 +181,7 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
                 String rating = cQns.getString(cQns.getColumnIndexOrThrow("rating"));
                 String optionType = cQns.getString(cQns.getColumnIndexOrThrow("optionType"));
                 boolean hasOptions = cQns.getInt(cQns.getColumnIndexOrThrow("hasOptions"))==1?true:false;
-                ArrayList<Options> arrOpt = new ArrayList<Options>();
+                ArrayList<Options> arrOpt = new ArrayList<>();
 
                 cOpt = db.getOptionsFromQnsId(cQns.getInt(cQns.getColumnIndexOrThrow("id")));
 

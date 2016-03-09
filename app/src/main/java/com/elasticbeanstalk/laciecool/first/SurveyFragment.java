@@ -974,15 +974,30 @@ public class SurveyFragment extends Fragment {
                 HashMap<String, String> userAns = ((SurveyQnsDisplayActivity) getActivity()).getRandomTwo();
                 HashMap<String, String> correctAns = ((SurveyQnsDisplayActivity) getActivity()).getCorrectAns();
 
-                i.putExtra("userAns", userAns);
+                i.putExtra("userAns2", userAns);
                 i.putExtra("correctAns", correctAns);
 
                 startActivity(i);
                 break;
             case 3:
                 HashMap<String, String> uAns = ((SurveyQnsDisplayActivity) getActivity()).getRandomThree();
-                i.putExtra("userAns", uAns);
+                i.putExtra("userAns3", uAns);
                 startActivity(i);
+                break;
+            case 4:
+                startActivity(i);
+                break;
+            case 5:
+                HashMap<String, String> userAns2 = ((SurveyQnsDisplayActivity) getActivity()).getRandomTwo();
+                HashMap<String, String> userAns3 = ((SurveyQnsDisplayActivity) getActivity()).getRandomThree();
+                HashMap<String, String> userAns5 = new HashMap<>();
+                userAns5.putAll(userAns2);
+                userAns5.putAll(userAns3);
+                i.putExtra("userAns2", userAns2);
+                i.putExtra("userAns3", userAns3);
+                i.putExtra("correctAns", ((SurveyQnsDisplayActivity) getActivity()).getCorrectAns());
+                startActivity(i);
+                break;
         }
     }
 

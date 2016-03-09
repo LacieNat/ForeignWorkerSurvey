@@ -146,10 +146,10 @@ public class IntroductionQnsActivity extends FragmentActivity {
         SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
         SharedPreferences.Editor e = sp.edit();
         //e.putInt("randNum", randomNum);
-        e.putInt("randNum", 3);
+        e.putInt("randNum", 5);
         e.commit();
 
-        return 3;
+        return 5;
         //return randomNum;
     }
 

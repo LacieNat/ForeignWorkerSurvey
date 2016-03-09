@@ -79,6 +79,12 @@ public class RandomThreeActivityFragment extends Fragment {
 
             if(qId == 31) {
                 switch(ua) {
+                    case "-1":
+                        uaView.setText("Don't Know");
+                        break;
+                    case "99":
+                        uaView.setText("No Response");
+                        break;
                     case "1":
                         uaView.setText("Never");
                         break;
@@ -115,29 +121,33 @@ public class RandomThreeActivityFragment extends Fragment {
             else
                 iv.setImageResource(R.drawable.freedom_main_scale);
         }
-        else if(fi == 2) {
-            v = inflater.inflate(R.layout.fragment_random_three_two, container, false);
-            ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeMain);
-
-            if(qId == 22)
-                iv.setImageResource(R.drawable.wage_main);
-
-            else if(qId == 81)
-                iv.setImageResource(R.drawable.hours_main);
-
-            else if(qId == 21)
-                iv.setImageResource(R.drawable.offdays_main);
-
-            else    //qId == 31
-                iv.setImageResource(R.drawable.freedom_main);
-
-        } else if (fi==3){    //fi == 3
+//        else if(fi == 2) {
+//            v = inflater.inflate(R.layout.fragment_random_three_two, container, false);
+//            ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeMain);
+//
+//            if(qId == 22)
+//                iv.setImageResource(R.drawable.wage_main);
+//
+//            else if(qId == 81)
+//                iv.setImageResource(R.drawable.hours_main);
+//
+//            else if(qId == 21)
+//                iv.setImageResource(R.drawable.offdays_main);
+//
+//            else    //qId == 31
+//                iv.setImageResource(R.drawable.freedom_main);
+//
+//        }
+         else if (fi==2){    //fi == 3
             v = inflater.inflate(R.layout.fragment_random_three_three, container, false);
             ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeThree);
             int ans = Integer.parseInt(ua);
             if(qId == 22) {
 
-                if(ans > 700) {
+                if(ans == 99 || ans == -1) {
+                    iv.setImageResource(R.drawable.wage_main);
+                }
+                else if(ans > 700) {
                     iv.setImageResource(R.drawable.wage_1a);
                 }
 
@@ -160,7 +170,10 @@ public class RandomThreeActivityFragment extends Fragment {
 
             else if(qId == 81) {
 
-                if(ans<8) {
+                if(ans == 99 || ans == -1) {
+                    iv.setImageResource(R.drawable.hours_main);
+                }
+                else if(ans<8) {
                     iv.setImageResource(R.drawable.hours_1a);
                 }
 
@@ -183,7 +196,10 @@ public class RandomThreeActivityFragment extends Fragment {
 
             else if(qId == 21) {
 
-                if(ans >= 4) {
+                if(ans == 99 || ans == -1) {
+                    iv.setImageResource(R.drawable.offdays_main);
+                }
+                else if(ans >= 4) {
                     iv.setImageResource(R.drawable.offdays_1a);
                 }
 
@@ -202,7 +218,10 @@ public class RandomThreeActivityFragment extends Fragment {
 
             else {
 
-                if(ans == 5) {
+                if(ans == 99 || ans == -1) {
+                    iv.setImageResource(R.drawable.freedom_main);
+                }
+                else if(ans == 5) {
                     iv.setImageResource(R.drawable.freedom_1a);
                 }
 
@@ -223,7 +242,7 @@ public class RandomThreeActivityFragment extends Fragment {
                 }
             }
 
-        } else if(fi==4) {
+        } else if(fi==3) {
             v = inflater.inflate(R.layout.fragment_random_three_three, container, false);
             ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeThree);
             int ans = Integer.parseInt(ua);

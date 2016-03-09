@@ -36,7 +36,7 @@ public class RandomThreeActivity extends FragmentActivity {
         //get and set user pid
         Intent preIntent = getIntent();
         pid = getSharedPreferences("sessionData", MODE_PRIVATE).getString("pid", "");
-        userAns = (HashMap<String, String>) preIntent.getSerializableExtra("userAns");
+        userAns = (HashMap<String, String>) preIntent.getSerializableExtra("userAns3");
 
         List<Fragment> fr = getFragments();
         ls = fr;
@@ -62,7 +62,7 @@ public class RandomThreeActivity extends FragmentActivity {
             String qns = cQns.getString(cQns.getColumnIndexOrThrow("qns"));
             int qnsId = cQns.getInt(cQns.getColumnIndexOrThrow("id"));
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
 
                 if(!userAns.get(Integer.toString(qnsId)).equals("99") && !userAns.get(Integer.toString(qnsId)).equals("-1")) {
                     fList.add(RandomThreeActivityFragment.newInstance(qnsId, qns, userAns.get(key), i, pageIndex++));
@@ -70,8 +70,12 @@ public class RandomThreeActivity extends FragmentActivity {
 
             }
 
-            if(hasPartC(qnsId)) {
-                fList.add(RandomThreeActivityFragment.newInstance(qnsId, qns, userAns.get(key), 6, pageIndex++));
+            if(hasPartB(Integer.parseInt(userAns.get(key)))) {
+                fList.add(RandomThreeActivityFragment.newInstance(qnsId, qns, userAns.get(key), 3, pageIndex++));
+            }
+
+            if(hasPartC(qnsId, Integer.parseInt(userAns.get(key)))) {
+                fList.add(RandomThreeActivityFragment.newInstance(qnsId, qns, userAns.get(key), 4, pageIndex++));
             }
 
             cQns.moveToNext();
@@ -80,36 +84,42 @@ public class RandomThreeActivity extends FragmentActivity {
         return fList;
     }
 
-    public boolean hasPartC(int qId) {
+    public boolean hasPartB(int ans) {
+        boolean hpb = true;
+        if (ans == -1 || ans == 99) {
+            hpb = false;
+        }
+
+        return hpb;
+    }
+
+    public boolean hasPartC(int qId, int ans) {
         boolean hpc = true;
-        for(String key: userAns.keySet()) {
-            int ans = Integer.parseInt(userAns.get(key));
-            if(qId == 22) {
+        if(qId == 22) {
 
-                if(ans > 700 || ans <=400) {
-                    hpc = false;
-                }
+            if(ans > 700 || ans <=400) {
+                hpc = false;
             }
+        }
 
-            else if(qId == 81) {
+        else if(qId == 81) {
 
-                if(ans<8 || ans >14) {
-                    hpc = false;
-                }
+            if(ans<8 || ans >14) {
+                hpc = false;
             }
+        }
 
-            else if(qId == 21) {
+        else if(qId == 21) {
 
-                if(ans >= 4 || ans<=1) {
-                    hpc = false;
-                }
+            if(ans >= 4 || ans<=1) {
+                hpc = false;
             }
+        }
 
-            else {
+        else {
 
-                if(ans == 5 || ans == 1) {
-                    hpc = false;
-                }
+            if(ans == 5 || ans == 1) {
+                hpc = false;
             }
         }
 

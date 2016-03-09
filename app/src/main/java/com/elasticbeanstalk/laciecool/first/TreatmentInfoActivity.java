@@ -9,12 +9,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class TreatmentInfoActivity extends Activity {
+    int phoneRandNum;
     int randNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_treatment_info);
 
+        phoneRandNum = getSharedPreferences("sessionData", MODE_PRIVATE).getInt("phoneRandNum", -1);
         randNum = getSharedPreferences("sessionData", MODE_PRIVATE).getInt("randNum", -1);
 
         LinearLayout lv = (LinearLayout) findViewById(R.id.infoListView);
@@ -39,12 +41,15 @@ public class TreatmentInfoActivity extends Activity {
                 lv.addView(tLabour);
                 break;
             case 2:
-                lv.addView(tEmp);
+                lv.addView(tLabour);
                 break;
             case 3:
-                lv.addView(tJob);
+                lv.addView(tEmp);
                 break;
             case 4:
+                lv.addView(tJob);
+                break;
+            case 5:
                 lv.addView(tLabour);
                 lv.addView(tEmp);
                 lv.addView(tJob);
@@ -63,6 +68,12 @@ public class TreatmentInfoActivity extends Activity {
                 break;
             case 3:
                 i.setClass(this, RandomThreeActivity.class);
+                break;
+            case 4:
+                i.setClass(this, EndActivity.class);
+                break;
+            case 5:
+                i.setClass(this, RandomTwoActivity.class);
                 break;
         }
 

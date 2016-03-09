@@ -1,6 +1,8 @@
 package com.elasticbeanstalk.laciecool.first;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -140,8 +142,19 @@ public class RandomTwoActivityFragment extends Fragment {
         //if last fragment, generate random number, start new activity.
         int childCount = ((RandomTwoActivity) getActivity()).getFragmentSize();
         if(pi == childCount - 1) {
-            Intent i = new Intent(getActivity(), EndActivity.class);
-            startActivity(i);
+            SharedPreferences sp = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+            int rn = sp.getInt("randNum", -1);
+
+            if(rn == 5) {
+                Intent i = getActivity().getIntent();
+                i.setClass(getActivity(),RandomThreeActivity.class);
+                startActivity(i);
+            }
+
+            else {
+                Intent i = new Intent(getActivity(), EndActivity.class);
+                startActivity(i);
+            }
         }
 
         //else set the next page as current page

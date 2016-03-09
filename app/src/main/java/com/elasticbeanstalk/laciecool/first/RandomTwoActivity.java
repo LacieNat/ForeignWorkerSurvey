@@ -35,7 +35,7 @@ public class RandomTwoActivity extends FragmentActivity {
         pid = getSharedPreferences("sessionData", MODE_PRIVATE).getString("pid", "");
 
 
-        userAns = (HashMap<String, String>) preIntent.getSerializableExtra("userAns");
+        userAns = (HashMap<String, String>) preIntent.getSerializableExtra("userAns2");
         correctAns = (HashMap<String, String>) preIntent.getSerializableExtra("correctAns");
         phoneNum = preIntent.getStringExtra("phoneNum");
 
