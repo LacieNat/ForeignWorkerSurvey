@@ -110,34 +110,18 @@ public class RandomThreeActivityFragment extends Fragment {
             ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeMain);
 
             if(qId==22)
-                iv.setImageResource(R.drawable.wage_main_scale);
+                setImage(iv, R.drawable.wage_main_scale, R.drawable.wage_main_scale_b);
 
             else if(qId==81)
-                iv.setImageResource(R.drawable.hours_main_scale);
+                setImage(iv, R.drawable.hours_main_scale, R.drawable.hours_main_scale_b);
 
             else if(qId == 21)
-                iv.setImageResource(R.drawable.offdays_main_scale);
+                setImage(iv, R.drawable.offdays_main_scale, R.drawable.offdays_main_scale_b);
 
             else
-                iv.setImageResource(R.drawable.freedom_main_scale);
+                setImage(iv, R.drawable.freedom_main_scale, R.drawable.freedom_main_scale_b);
         }
-//        else if(fi == 2) {
-//            v = inflater.inflate(R.layout.fragment_random_three_two, container, false);
-//            ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeMain);
-//
-//            if(qId == 22)
-//                iv.setImageResource(R.drawable.wage_main);
-//
-//            else if(qId == 81)
-//                iv.setImageResource(R.drawable.hours_main);
-//
-//            else if(qId == 21)
-//                iv.setImageResource(R.drawable.offdays_main);
-//
-//            else    //qId == 31
-//                iv.setImageResource(R.drawable.freedom_main);
-//
-//        }
+
          else if (fi==2){    //fi == 3
             v = inflater.inflate(R.layout.fragment_random_three_three, container, false);
             ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeThree);
@@ -145,100 +129,100 @@ public class RandomThreeActivityFragment extends Fragment {
             if(qId == 22) {
 
                 if(ans == 99 || ans == -1) {
-                    iv.setImageResource(R.drawable.wage_main);
+                    setImage(iv, R.drawable.wage_main, R.drawable.wage_main_b);
                 }
                 else if(ans > 700) {
-                    iv.setImageResource(R.drawable.wage_1a);
+                    setImage(iv, R.drawable.wage_1a, R.drawable.wage_1a_b);
                 }
 
                 else if(ans>600 && ans<=700) {
-                    iv.setImageResource(R.drawable.wage_2a);
+                    setImage(iv, R.drawable.wage_2a, R.drawable.wage_2a_b);
                 }
 
                 else if(ans>500 && ans<=600) {
-                    iv.setImageResource(R.drawable.wage_3a);
+                    setImage(iv, R.drawable.wage_3a, R.drawable.wage_3a_b);
                 }
 
                 else if(ans>400 && ans<=500) {
-                    iv.setImageResource(R.drawable.wage_4a);
+                    setImage(iv, R.drawable.wage_4a, R.drawable.wage_4a_b);
                 }
 
                 else {
-                    iv.setImageResource(R.drawable.wage_5a);
+                    setImage(iv, R.drawable.wage_5a, R.drawable.wage_5a_b);
                 }
             }
 
             else if(qId == 81) {
 
                 if(ans == 99 || ans == -1) {
-                    iv.setImageResource(R.drawable.hours_main);
+                    setImage(iv, R.drawable.hours_main, R.drawable.hours_main_b);
                 }
                 else if(ans<8) {
-                    iv.setImageResource(R.drawable.hours_1a);
+                    setImage(iv, R.drawable.hours_1a, R.drawable.hours_1a_b);
                 }
 
                 else if(ans>8 && ans<=10) {
-                    iv.setImageResource(R.drawable.hours_2a);
+                    setImage(iv, R.drawable.hours_2a, R.drawable.hours_2a_b);
                 }
 
                 else if(ans>10 && ans<=12)  {
-                    iv.setImageResource(R.drawable.hours_3a);
+                    setImage(iv, R.drawable.hours_3a, R.drawable.hours_3a_b);
                 }
 
                 else if(ans>12 && ans<=14) {
-                    iv.setImageResource(R.drawable.hours_4a);
+                    setImage(iv, R.drawable.hours_4a, R.drawable.hours_4a_b);
                 }
 
                 else {
-                    iv.setImageResource(R.drawable.hours_5a);
+                    setImage(iv, R.drawable.hours_5a, R.drawable.hours_5a_b);
                 }
             }
 
             else if(qId == 21) {
 
                 if(ans == 99 || ans == -1) {
-                    iv.setImageResource(R.drawable.offdays_main);
+                    setImage(iv, R.drawable.offdays_main, R.drawable.offdays_main_b);
                 }
                 else if(ans >= 4) {
-                    iv.setImageResource(R.drawable.offdays_1a);
+                    setImage(iv, R.drawable.offdays_1a, R.drawable.offdays_1a_b);
                 }
 
                 else if(ans == 3) {
-                    iv.setImageResource(R.drawable.offdays_2a);
+                    setImage(iv, R.drawable.offdays_2a, R.drawable.offdays_2a_b);
                 }
 
                 else if(ans == 2) {
-                    iv.setImageResource(R.drawable.offdays_3a);
+                    setImage(iv, R.drawable.offdays_3a, R.drawable.offdays_3a_b);
                 }
 
                 else {
-                    iv.setImageResource(R.drawable.offdays_4a);
+                    setImage(iv, R.drawable.offdays_4a, R.drawable.offdays_4a_b);
                 }
             }
 
             else {
 
                 if(ans == 99 || ans == -1) {
-                    iv.setImageResource(R.drawable.freedom_main);
+                    setImage(iv, R.drawable.freedom_main, R.drawable.freedom_main_b);
                 }
                 else if(ans == 5) {
-                    iv.setImageResource(R.drawable.freedom_1a);
+                    setImage(iv, R.drawable.freedom_1a, R.drawable.freedom_1a_b);
                 }
 
                 else if(ans == 4) {
-                    iv.setImageResource(R.drawable.freedom_2a);
+                    setImage(iv, R.drawable.freedom_2a, R.drawable.freedom_2a_b);
                 }
 
                 else if(ans == 3) {
-                    iv.setImageResource(R.drawable.freedom_3a);
+                    setImage(iv, R.drawable.freedom_3a, R.drawable.freedom_3a_b);
                 }
 
                 else if(ans == 2) {
-                    iv.setImageResource(R.drawable.freedom_4a);
+                    setImage(iv, R.drawable.freedom_4a, R.drawable.freedom_4a_b);
                 }
 
                 else {
-                    iv.setImageResource(R.drawable.freedom_5a);
+                    setImage(iv, R.drawable.freedom_5a, R.drawable.freedom_5a_b);
                 }
             }
 
@@ -249,88 +233,88 @@ public class RandomThreeActivityFragment extends Fragment {
             if(qId == 22) {
 
                 if(ans > 700) {
-                    iv.setImageResource(R.drawable.wage_1b);
+                    setImage(iv, R.drawable.wage_1b, R.drawable.wage_1b_b);
                 }
 
                 else if(ans>600 && ans<=700) {
-                    iv.setImageResource(R.drawable.wage_2b);
+                    setImage(iv, R.drawable.wage_2b, R.drawable.wage_2b_b);
                 }
 
                 else if(ans>500 && ans<=600) {
-                    iv.setImageResource(R.drawable.wage_3b);
+                    setImage(iv, R.drawable.wage_3b, R.drawable.wage_3b_b);
                 }
 
                 else if(ans>400 && ans<=500) {
-                    iv.setImageResource(R.drawable.wage_4b);
+                    setImage(iv, R.drawable.wage_4b, R.drawable.wage_4b_b);
                 }
 
                 else {
-                    iv.setImageResource(R.drawable.wage_5b);
+                    setImage(iv, R.drawable.wage_5b, R.drawable.wage_5b_b);
                 }
             }
 
             else if(qId == 81) {
 
                 if(ans<8) {
-                    iv.setImageResource(R.drawable.hours_1b);
+                    setImage(iv, R.drawable.hours_1b, R.drawable.hours_1b_b);
                 }
 
                 else if(ans>8 && ans<=10) {
-                    iv.setImageResource(R.drawable.hours_2b);
+                    setImage(iv, R.drawable.hours_2b, R.drawable.hours_2b_b);
                 }
 
                 else if(ans>10 && ans<=12)  {
-                    iv.setImageResource(R.drawable.hours_3b);
+                    setImage(iv, R.drawable.hours_3b, R.drawable.hours_3b_b);
                 }
 
                 else if(ans>12 && ans<=14) {
-                    iv.setImageResource(R.drawable.hours_4b);
+                    setImage(iv, R.drawable.hours_4b, R.drawable.hours_4b_b);
                 }
 
                 else {
-                    iv.setImageResource(R.drawable.hours_5b);
+                    setImage(iv, R.drawable.hours_5b, R.drawable.hours_5b_b);
                 }
             }
 
             else if(qId == 21) {
 
                 if(ans >= 4) {
-                    iv.setImageResource(R.drawable.offdays_1b);
+                    setImage(iv, R.drawable.offdays_1b, R.drawable.offdays_1b_b);
                 }
 
                 else if(ans == 3) {
-                    iv.setImageResource(R.drawable.offdays_2b);
+                    setImage(iv, R.drawable.offdays_2b, R.drawable.offdays_2b_b);
                 }
 
                 else if(ans == 2) {
-                    iv.setImageResource(R.drawable.offdays_3b);
+                    setImage(iv, R.drawable.offdays_3b, R.drawable.offdays_3b_b);
                 }
 
                 else {
-                    iv.setImageResource(R.drawable.offdays_4b);
+                    setImage(iv, R.drawable.offdays_4b, R.drawable.offdays_4b_b);
                 }
             }
 
             else {
 
                 if(ans == 5) {
-                    iv.setImageResource(R.drawable.freedom_1b);
+                    setImage(iv, R.drawable.freedom_1b, R.drawable.freedom_1b_b);
                 }
 
                 else if(ans == 4) {
-                    iv.setImageResource(R.drawable.freedom_2b);
+                    setImage(iv, R.drawable.freedom_2b, R.drawable.freedom_2b_b);
                 }
 
                 else if(ans == 3) {
-                    iv.setImageResource(R.drawable.freedom_3b);
+                    setImage(iv, R.drawable.freedom_3b, R.drawable.freedom_3b_b);
                 }
 
                 else if(ans == 2) {
-                    iv.setImageResource(R.drawable.freedom_4b);
+                    setImage(iv, R.drawable.freedom_4b, R.drawable.freedom_4b_b);
                 }
 
                 else {
-                    iv.setImageResource(R.drawable.freedom_5b);
+                    setImage(iv, R.drawable.freedom_5b, R.drawable.freedom_5b_b);
                 }
             }
         } else {
@@ -340,15 +324,15 @@ public class RandomThreeActivityFragment extends Fragment {
             if(qId == 22) {
 
                 if(ans>600 && ans<=700) {
-                    iv.setImageResource(R.drawable.wage_2c);
+                    setImage(iv, R.drawable.wage_2c, R.drawable.wage_2c_b);
                 }
 
                 else if(ans>500 && ans<=600) {
-                    iv.setImageResource(R.drawable.wage_3c);
+                    setImage(iv, R.drawable.wage_3c, R.drawable.wage_3c_b);
                 }
 
                 else if(ans>400 && ans<=500) {
-                    iv.setImageResource(R.drawable.wage_4c);
+                    setImage(iv, R.drawable.wage_4c, R.drawable.wage_4c_b);
                 }
 
             }
@@ -356,15 +340,15 @@ public class RandomThreeActivityFragment extends Fragment {
             else if(qId == 81) {
 
                 if(ans>8 && ans<=10) {
-                    iv.setImageResource(R.drawable.hours_2c);
+                    setImage(iv, R.drawable.hours_2c, R.drawable.hours_2c_b);
                 }
 
                 else if(ans>10 && ans<=12)  {
-                    iv.setImageResource(R.drawable.hours_3c);
+                    setImage(iv, R.drawable.hours_3c, R.drawable.hours_3c_b);
                 }
 
                 else if(ans>12 && ans<=14) {
-                    iv.setImageResource(R.drawable.hours_4c);
+                    setImage(iv, R.drawable.hours_4c, R.drawable.hours_4c_b);
                 }
 
             }
@@ -372,11 +356,11 @@ public class RandomThreeActivityFragment extends Fragment {
             else if(qId == 21) {
 
                 if(ans == 3) {
-                    iv.setImageResource(R.drawable.offdays_2c);
+                    setImage(iv, R.drawable.offdays_2c, R.drawable.offdays_2c_b);
                 }
 
                 else if(ans == 2) {
-                    iv.setImageResource(R.drawable.offdays_3c);
+                    setImage(iv, R.drawable.offdays_3c, R.drawable.offdays_3c_b);
                 }
 
             }
@@ -384,15 +368,15 @@ public class RandomThreeActivityFragment extends Fragment {
             else {
 
                 if(ans == 4) {
-                    iv.setImageResource(R.drawable.freedom_2c);
+                    setImage(iv, R.drawable.freedom_2c, R.drawable.freedom_2c_b);
                 }
 
                 else if(ans == 3) {
-                    iv.setImageResource(R.drawable.freedom_3c);
+                    setImage(iv, R.drawable.freedom_3c, R.drawable.freedom_3c_b);
                 }
 
                 else if(ans == 2) {
-                    iv.setImageResource(R.drawable.freedom_4c);
+                    setImage(iv, R.drawable.freedom_4c, R.drawable.freedom_4c_b);
                 }
 
             }
@@ -414,6 +398,17 @@ public class RandomThreeActivityFragment extends Fragment {
         });
 
         return v;
+    }
+
+    public void setImage(ImageView v, int resE, int resB) {
+        SharedPreferences sp = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+        boolean isEnglish = sp.getInt("lang", 0)==0;
+
+        if (isEnglish) {
+            v.setImageResource(resE);
+        } else {
+            v.setImageResource(resB);
+        }
     }
 
     public void onNext(View v) {

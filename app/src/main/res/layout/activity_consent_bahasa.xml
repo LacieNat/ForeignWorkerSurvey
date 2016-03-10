@@ -63,7 +63,7 @@
         <com.elasticbeanstalk.laciecool.first.SignatureView
             android:id="@+id/signature_canvas"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="180dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
