@@ -33,15 +33,17 @@ import java.util.ArrayList;
 public class IntroFragment extends Fragment {
 
     private static final String question = "INTRO_QNS";
+    private static final String index = "index";
     private int radioChecked = 0;
+    private int ind;
 
     private OnFragmentInteractionListener mListener;
 
-    public static IntroFragment newInstance(String qns) {
+    public static IntroFragment newInstance(String qns, int ind) {
         IntroFragment fragment = new IntroFragment();
         Bundle b = new Bundle(1);
         b.putString(question, qns);
-
+        b.putInt(index, ind);
         fragment.setArguments(b);
         return fragment;
     }
@@ -53,6 +55,7 @@ public class IntroFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ind = getArguments().getInt(index);
     }
 
     @Override
@@ -66,6 +69,10 @@ public class IntroFragment extends Fragment {
             v = inflater.inflate(R.layout.fragment_intro, container, false);
         else
             v = inflater.inflate(R.layout.fragment_intro_bahasa, container, false);
+
+        if(ind == 0) {
+            v.findViewById(R.id.introPrevQnsBtn).setVisibility(View.GONE);
+        }
 
         TextView quesn = (TextView) v.findViewById(R.id.introQns);
         quesn.setText(m);

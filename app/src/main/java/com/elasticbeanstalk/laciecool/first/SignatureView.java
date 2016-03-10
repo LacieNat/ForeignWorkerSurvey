@@ -97,6 +97,13 @@ public class SignatureView extends View {
         this.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 95, fos);
     }
 
+    public boolean isCanvasEmpty() {
+        Bitmap curr = this.getDrawingCache();
+        Bitmap emptyBm = Bitmap.createBitmap(curr.getWidth(), curr.getHeight(), curr.getConfig());
+
+        return curr.sameAs(emptyBm);
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();

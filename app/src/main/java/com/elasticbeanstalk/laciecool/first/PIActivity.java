@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 
@@ -19,10 +20,13 @@ public class PIActivity extends Activity {
         setContentView(R.layout.activity_pi);
 
         SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
-
+        TouchImageView iv = (TouchImageView) this.findViewById(R.id.imageView2);
+        iv.setZoom(1);
+        iv.setMaxZoom(5);
         if (sp.getInt("lang", 0) != 0) {
-            ImageView iv = (ImageView) this.findViewById(R.id.imageView2);
+
             iv.setImageResource(R.drawable.sign_bahasa);
+            ((Button) this.findViewById(R.id.nextBtn)).setText(R.string.nextBahasa);
         }
     }
 

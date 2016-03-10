@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -42,35 +45,39 @@ public class ConsentActivity extends Activity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN /*&& nameFlag*/) {
-                    Button b = (Button) findViewById(R.id.btn_next);
-                    b.setEnabled(true);
+                    EditText etname = (EditText) ((LinearLayout) v.getParent()).findViewById(R.id.name);
+
+                    if (!etname.getText().toString().equals("")) {
+                        Button b = (Button) findViewById(R.id.btn_next);
+                        b.setEnabled(true);
+                    }
                 }
 
                 return false;
             }
         });
 
-//        nameView.setOnKeyListener(new View.OnKeyListener() {
-//
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                if (event.getAction() == KeyEvent.ACTION_DOWN && sigFlag) {
-//                    if(keyCode == 4) {  //if key code is backspace
-//                        if (nameView.getText().equals("")) {
-//                            nameFlag = false;
-//                            Button b = (Button) findViewById(R.id.btn_next);
-//                            b.setEnabled(false);
-//                        }
-//                    } else {
-//                        nameFlag = true;
-//                        Button b = (Button) findViewById(R.id.btn_next);
-//                        b.setEnabled(true);
-//                    }
-//                }
-//
-//                return false;
-//            }
-//        });
+        nameView.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Button b = (Button) findViewById(R.id.btn_next);
+                if(count!=0 && !sigView.isCanvasEmpty()) {
+                    b.setEnabled(true);
+                }
+                else if(count == 0) {
+                    b.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         Button b = (Button) findViewById(R.id.btn_next);
         b.setEnabled(false);

@@ -17,13 +17,14 @@
         android:layout_width="match_parent"
         android:layout_height="155dp"
         android:paddingLeft="100px"
-        android:id="@+id/language">
+        android:id="@+id/language"
+        android:checkedButton="@+id/english">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="English"
-            android:id="@+id/english"
+            android:id="@id/english"
             android:textSize="50px"
             android:paddingBottom="20px" />
 

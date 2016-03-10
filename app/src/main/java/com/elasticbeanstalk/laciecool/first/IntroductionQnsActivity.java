@@ -220,13 +220,13 @@ public class IntroductionQnsActivity extends FragmentActivity {
         SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
 
         if(sp.getInt("lang", 0) == 0) {
-            fList.add(IntroFragment.newInstance(introQns1));
-            fList.add(IntroFragment.newInstance(introQns2));
-            fList.add(IntroFragment.newInstance(introQns3));
+            fList.add(IntroFragment.newInstance(introQns1, 0));
+            fList.add(IntroFragment.newInstance(introQns2, 1));
+            fList.add(IntroFragment.newInstance(introQns3, 2));
         } else {
-            fList.add(IntroFragment.newInstance(introQns1Bahasa));
-            fList.add(IntroFragment.newInstance(introQns2Bahasa));
-            fList.add(IntroFragment.newInstance(introQns3Bahasa));
+            fList.add(IntroFragment.newInstance(introQns1Bahasa, 0));
+            fList.add(IntroFragment.newInstance(introQns2Bahasa, 1));
+            fList.add(IntroFragment.newInstance(introQns3Bahasa, 2));
         }
 
         return fList;

@@ -30,7 +30,8 @@
             android:text="Iya"
             android:id="@id/radioYes"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:textSize="20dp" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -38,7 +39,8 @@
             android:text="Tidak"
             android:id="@+id/radioNo"
             android:paddingTop="30dp"
-            android:paddingBottom="30dp" />
+            android:paddingBottom="30dp"
+            android:textSize="20dp" />
     </RadioGroup>
 
     <LinearLayout
