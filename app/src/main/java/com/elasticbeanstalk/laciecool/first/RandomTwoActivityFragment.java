@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -84,7 +85,9 @@ public class RandomTwoActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_random_two, container, false);
+        View v = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("lang", 0)==0?
+                inflater.inflate(R.layout.fragment_random_two, container, false):
+                inflater.inflate(R.layout.fragment_random_two_bahasa, container, false);
 
         //populate user ans and right ans;
         TextView resultQns = (TextView) v.findViewById(R.id.resultQns);
@@ -97,22 +100,10 @@ public class RandomTwoActivityFragment extends Fragment {
             return null;
         }
 
-        if (ua.equals("1")) {
-            userAnsText.setText("True");
-        } else if (ua.equals("99")) {
-            userAnsText.setText("No response");
-        } else {
-            userAnsText.setText("False");
-        }
-        TextView correctAnsText = (TextView) v.findViewById(R.id.correctAns);
+        setAnsText(userAnsText, ua);
 
-        if (ca.equals("1")) {
-            correctAnsText.setText("True");
-        } else if (ca.equals("99")) {
-            correctAnsText.setText("No response");
-        } else {
-            correctAnsText.setText("False");
-        }
+        TextView correctAnsText = (TextView) v.findViewById(R.id.correctAns);
+        setAnsText(correctAnsText, ca);
 
         if (ua.equals(ca)) {
             userAnsText.setTextColor(Color.BLUE);
@@ -136,6 +127,28 @@ public class RandomTwoActivityFragment extends Fragment {
         });
 
         return v;
+    }
+
+    public void setAnsText(TextView v, String ans) {
+        boolean isEnglish = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("lang", 0)==0;
+
+        if(isEnglish) {
+            if (ans.equals("1")) {
+                v.setText(GlobalValues.trueEnglish);
+            } else if (ua.equals("99")) {
+                v.setText(GlobalValues.noRespEnglish);
+            } else {
+                v.setText(GlobalValues.falseEnglish);
+            }
+        } else {
+            if (ans.equals("1")) {
+                v.setText(GlobalValues.trueBahasa);
+            } else if (ua.equals("99")) {
+                v.setText(GlobalValues.noRespBahasa);
+            } else {
+                v.setText(GlobalValues.falseBahasa);
+            }
+        }
     }
 
     public void onNext(View v) {

@@ -50,7 +50,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Previous"
+            android:text="@string/previousBahasa"
             android:id="@+id/introPrevQnsBtn"
             android:onClick="introPrevQns"
             android:layout_gravity="right" />
@@ -58,7 +58,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next"
+            android:text="@string/nextBahasa"
             android:id="@+id/introNextQnsBtn"
             android:onClick="introNextQns"
             android:layout_gravity="right" />

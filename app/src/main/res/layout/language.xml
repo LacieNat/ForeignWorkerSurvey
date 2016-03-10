@@ -40,5 +40,6 @@
         android:text="Next"
         android:id="@+id/introNextBtn"
         android:layout_gravity="right"
-        android:onClick="langSelect"/>
+        android:onClick="langSelect"
+        android:layout_marginRight="20dp" />
 </LinearLayout>

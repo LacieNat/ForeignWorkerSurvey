@@ -70,6 +70,7 @@ public class SurveyFragment extends Fragment {
 
     private ArrayList<String> answers;
     private HashMap<Integer, Integer> qnsWithPgJump;
+    private boolean isEnglish;
 
     private OnFragmentInteractionListener mListener;
 
@@ -109,6 +110,7 @@ public class SurveyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isEnglish = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("lang",0) == 0;
         if (getArguments() != null) {
             gId = getArguments().getInt(SurveyFragment.grpId);
             qId = getArguments().getInt(SurveyFragment.qnsId);
@@ -845,12 +847,21 @@ public class SurveyFragment extends Fragment {
 
         Button btnN = new Button(getActivity());
         Button btnP = new Button(getActivity());
-        btnN.setText("Next");
+        if(isEnglish)
+            btnN.setText("Next");
+        else
+            btnN.setText(R.string.nextBahasa);
+
         btnN.setId(R.id.surveyNextBtn);
         btnN.setGravity(Gravity.RIGHT);
 
-        btnP.setText("Previous");
+        if(isEnglish)
+            btnP.setText("Previous");
+        else
+            btnP.setText(R.string.previousBahasa);
+
         btnP.setGravity(Gravity.RIGHT);
+
         btnP.setId(R.id.surveyPrevBtn);
 
         btnP.setOnClickListener(new View.OnClickListener() {

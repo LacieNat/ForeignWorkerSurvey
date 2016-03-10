@@ -54,12 +54,14 @@ public class RandomThreeActivity extends FragmentActivity {
     public List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
         int pageIndex = 0;
+        boolean isEnglish = getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("lang", 0) == 0;
+
         //SurveySQL.forceDatabaseReload(this);
         db = new SurveySQL(this);
 
         for(String key: userAns.keySet()) {
             Cursor cQns = db.getSurveyQnsFromQnsId(Integer.parseInt(key));
-            String qns = cQns.getString(cQns.getColumnIndexOrThrow("qns"));
+            String qns = isEnglish?cQns.getString(cQns.getColumnIndexOrThrow("qns")):cQns.getString(cQns.getColumnIndexOrThrow("qnsBahasa"));
             int qnsId = cQns.getInt(cQns.getColumnIndexOrThrow("id"));
 
             for (int i = 0; i < 3; i++) {

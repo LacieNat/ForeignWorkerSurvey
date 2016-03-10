@@ -34,6 +34,8 @@ public class RandomThreeActivityFragment extends Fragment {
     private int fi;
     private int pi;
 
+    private boolean isEnglish;
+
     public static RandomThreeActivityFragment newInstance(int qId, String qns, String userAns, int fragIndex, int pageIndex) {
         RandomThreeActivityFragment fragment = new RandomThreeActivityFragment();
         Bundle b = new Bundle(1);
@@ -54,7 +56,7 @@ public class RandomThreeActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        isEnglish = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("lang",0)==0;
         if(getArguments()!=null) {
             qId = getArguments().getInt(RandomThreeActivityFragment.qnsId);
             ua = getArguments().getString(RandomThreeActivityFragment.userAns);
@@ -71,7 +73,9 @@ public class RandomThreeActivityFragment extends Fragment {
         View v;
 
         if(fi == 0) {
-            v = inflater.inflate(R.layout.fragment_random_three_one, container, false);
+            v = isEnglish?
+                    inflater.inflate(R.layout.fragment_random_three_one, container, false):
+                    inflater.inflate(R.layout.fragment_random_three_one_bahasa, container, false);
             TextView qView = (TextView) v.findViewById(R.id.randThreeQns);
             qView.setText(q);
 
@@ -106,7 +110,9 @@ public class RandomThreeActivityFragment extends Fragment {
             }
         } else if(fi==1) {
 
-            v = inflater.inflate(R.layout.fragment_random_three_two, container, false);
+            v = isEnglish?
+                    inflater.inflate(R.layout.fragment_random_three_two, container, false):
+                    inflater.inflate(R.layout.fragment_random_three_two_bahasa, container, false);
             ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeMain);
 
             if(qId==22)
@@ -123,8 +129,8 @@ public class RandomThreeActivityFragment extends Fragment {
         }
 
          else if (fi==2){    //fi == 3
-            v = inflater.inflate(R.layout.fragment_random_three_three, container, false);
-            ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeThree);
+            v = inflater.inflate(R.layout.fragment_random_three_two, container, false);
+            ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeMain);
             int ans = Integer.parseInt(ua);
             if(qId == 22) {
 
@@ -227,8 +233,10 @@ public class RandomThreeActivityFragment extends Fragment {
             }
 
         } else if(fi==3) {
-            v = inflater.inflate(R.layout.fragment_random_three_three, container, false);
-            ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeThree);
+            v = isEnglish?
+                    inflater.inflate(R.layout.fragment_random_three_two, container, false):
+                    inflater.inflate(R.layout.fragment_random_three_two_bahasa, container, false);
+            ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeMain);
             int ans = Integer.parseInt(ua);
             if(qId == 22) {
 
@@ -318,8 +326,10 @@ public class RandomThreeActivityFragment extends Fragment {
                 }
             }
         } else {
-            v = inflater.inflate(R.layout.fragment_random_three_three, container, false);
-            ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeThree);
+            v = isEnglish?
+                    inflater.inflate(R.layout.fragment_random_three_two, container, false):
+                    inflater.inflate(R.layout.fragment_random_three_two_bahasa, container, false);
+            ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeMain);
             int ans = Integer.parseInt(ua);
             if(qId == 22) {
 
@@ -401,9 +411,6 @@ public class RandomThreeActivityFragment extends Fragment {
     }
 
     public void setImage(ImageView v, int resE, int resB) {
-        SharedPreferences sp = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE);
-        boolean isEnglish = sp.getInt("lang", 0)==0;
-
         if (isEnglish) {
             v.setImageResource(resE);
         } else {

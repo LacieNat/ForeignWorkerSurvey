@@ -62,6 +62,8 @@ Saya menyatakan bahwa:\n\n
 Dengan ini saya menyatakan bahwa penelitian ini telah dijelaskan kepada saya dan bahwa tanda tangan saya adalah bukti persetujuan keterlibatan saya dalam penelitian ini.\n\n
 
     </string>
+    <string name="nextBahasa">Berikutnya</string>
+    <string name="previousBahasa">Sebelumnya</string>
     <string name="title_activity_random_two">RandomTwoActivity</string>
     <string name="title_activity_random_three">RandomThreeActivity</string>
     <string name="title_activity_phone_num_info">PhoneNumInfoActivity</string>

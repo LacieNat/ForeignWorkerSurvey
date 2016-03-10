@@ -1,5 +1,6 @@
 package com.elasticbeanstalk.laciecool.first;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
@@ -54,13 +55,14 @@ public class RandomTwoActivity extends FragmentActivity {
 
     public List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
-        SurveySQL.forceDatabaseReload(this);
+        //SurveySQL.forceDatabaseReload(this);
+        boolean isEnglish = getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("lang", 0) == 0;
 
         db = new SurveySQL(this);
         Cursor cQns = db.getSurveyQnsInOrder(7);
 
         for(int i=0; i<5; i++) {
-            String qns = cQns.getString(cQns.getColumnIndexOrThrow("qns"));
+            String qns = isEnglish?cQns.getString(cQns.getColumnIndexOrThrow("qns")):cQns.getString(cQns.getColumnIndexOrThrow("qnsBahasa"));
             int qnsId = cQns.getInt(cQns.getColumnIndexOrThrow("id"));
             fList.add(RandomTwoActivityFragment.newInstance(qns, userAns.get(Integer.toString(qnsId)), correctAns.get(Integer.toString(qnsId)), i));
             cQns.moveToNext();

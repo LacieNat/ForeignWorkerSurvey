@@ -9,10 +9,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class SignatureView extends View {
     private Paint paint = new Paint();
@@ -27,6 +32,7 @@ public class SignatureView extends View {
     public SignatureView(Context c, AttributeSet attrs) {
         super(c, attrs);
         context = c;
+        this.setDrawingCacheEnabled(true);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(6f);
         paint.setColor(Color.BLACK);
@@ -45,6 +51,7 @@ public class SignatureView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        //canvas.drawBitmap(mBitmap, 0, 0, paint);
         canvas.drawPath(path, paint);
     }
 
@@ -76,6 +83,18 @@ public class SignatureView extends View {
     public void clearCanvas() {
         path.reset();
         invalidate();
+    }
+
+    public void saveImage(String pid) {
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+pid+".png");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        this.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 95, fos);
     }
 
     @Override
