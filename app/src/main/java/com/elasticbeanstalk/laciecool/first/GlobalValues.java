@@ -12,4 +12,6 @@ public class GlobalValues {
     public static String falseBahasa = "Salah";
     public static String noRespBahasa = "Tidak bersedia menjawab";
 
+    public static String noRespValue = "99";
+    public static String dkValue = "-1";
 }
