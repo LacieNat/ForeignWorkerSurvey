@@ -53,7 +53,8 @@
             android:layout_height="wrap_content"
             android:text="AM"
             android:id="@+id/amBtn"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp"
+            android:checked="true"/>
 
         <RadioButton
             android:layout_width="wrap_content"

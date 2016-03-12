@@ -11,4 +11,5 @@
     <item name="monthDouble" type="id"/>
     <item name="yearDouble" type="id"/>
     <item name="otherBox" type="id"/>
+    <item name="checkboxGroup" type="id"/>
 </resources>

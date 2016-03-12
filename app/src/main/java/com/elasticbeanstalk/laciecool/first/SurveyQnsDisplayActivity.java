@@ -112,7 +112,7 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
         //initialize database and values
         SQLiteDatabase db = cr.getWritableDatabase();
         ContentValues v = new ContentValues();
-        HashMap<String, String> hm = new HashMap<String,String> ();
+        HashMap<String, String> hm = new HashMap<> ();
 
         //for all fragments
         for(int i=0; i<ls.size(); i++) {
@@ -133,9 +133,9 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
 
             }
 
-            //if answers is empty put empty string
+            //if answers is empty put no response
             else {
-                hm.put(Integer.toString(i), "");
+                hm.put(Integer.toString(i), "99");
             }
         }
 
@@ -164,12 +164,12 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
         //*** TODO: INSERT INFO PAGES ****
         //for each group
         //
-        //for(int i=0; i<cGrp.getCount(); i++) {
-        for(int i=1; i<3; i++){
+        for(int i=0; i<cGrp.getCount(); i++) {
+        //for(int i=1; i<3; i++){
             String groupName = isEnglish?cGrp.getString(cGrp.getColumnIndexOrThrow("title")):cGrp.getString(cGrp.getColumnIndexOrThrow("titleBahasa"));
             int groupId = cGrp.getInt(cGrp.getColumnIndexOrThrow("id"));
 
-            groupId = 2;
+            //groupId = 2;
 
             cQns = db.getSurveyQnsInOrder(groupId);
 
@@ -179,6 +179,7 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
                 String qns = isEnglish?cQns.getString(cQns.getColumnIndexOrThrow("qns")):cQns.getString(cQns.getColumnIndexOrThrow("qnsBahasa"));
                 int qnsId = cQns.getInt(cQns.getColumnIndexOrThrow("id"));
                 int grpId = cQns.getInt(cQns.getColumnIndexOrThrow("grp"));
+                int order = cQns.getInt(cQns.getColumnIndexOrThrow("ord"));
                 int numOfInput = cQns.getInt(cQns.getColumnIndexOrThrow("numOfInput"));
                 String units = isEnglish?cQns.getString(cQns.getColumnIndexOrThrow("units")):cQns.getString(cQns.getColumnIndexOrThrow("unitsBahasa"));
                 String rating = isEnglish?cQns.getString(cQns.getColumnIndexOrThrow("rating")):cQns.getString(cQns.getColumnIndexOrThrow("ratingBahasa"));
@@ -207,7 +208,7 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
                 }
 
                 //grpName, qns, numOfInput, hasOptions, units, hasMulOpts, rating, options
-                fList.add(SurveyFragment.newInstance(grpId, qnsId, groupName, qns, numOfInput, hasOptions, optionType, units, rating, arrOpt, pageIndex));
+                fList.add(SurveyFragment.newInstance(grpId, qnsId, groupName, qns, numOfInput, hasOptions, optionType, units, rating, arrOpt, pageIndex, order));
                 pageIndex++;
                 cQns.moveToNext();
             }

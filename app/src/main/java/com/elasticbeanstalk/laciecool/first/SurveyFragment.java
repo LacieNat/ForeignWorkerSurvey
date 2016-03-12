@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -56,6 +57,7 @@ public class SurveyFragment extends Fragment {
     private ArrayList<Options> opt;
     private String r;
     private int ind;
+    private int ord;
 
     private View vPtr;
 
@@ -63,6 +65,7 @@ public class SurveyFragment extends Fragment {
     private static final String qnsId = "qnsId";
     private static final String groupName = "groupName";
     private static final String qns = "qns";
+    private static final String order = "order";
     private static final String numOfInput = "numOfInput";
     private static final String hasOptions = "hasOptions";
     private static final String optionType = "optionType";
@@ -71,10 +74,12 @@ public class SurveyFragment extends Fragment {
     private static final String rating = "rating";
 
     private ArrayList<String> answers;
-    private HashMap<Integer, Integer> qnsWithPgJump;
+    private static HashMap<Integer, Integer> qnsWithPgJump = new HashMap<>();
     private boolean isEnglish;
 
     private OnFragmentInteractionListener mListener;
+
+    private TextWatcher noResponseClearWatcher;
 
     /**
      * Use this factory method to create a new instance of
@@ -86,7 +91,7 @@ public class SurveyFragment extends Fragment {
     // String grpName, String qns, int numOfInput, boolean hasOptions,
     // String units, boolean hasMulOpt, String rating, ArrayList<Options> options
     public static SurveyFragment newInstance(int grpId, int qId, String grpName, String qns, int numOfInput, boolean hasOptions, String optionType,
-                                             String units, String rating, ArrayList<Options> options, int index) {
+                                             String units, String rating, ArrayList<Options> options, int index, int ord) {
         SurveyFragment fragment = new SurveyFragment();
         Bundle b = new Bundle(1);
         b.putInt(SurveyFragment.grpId, grpId);
@@ -98,6 +103,7 @@ public class SurveyFragment extends Fragment {
         b.putString(SurveyFragment.optionType, optionType);
         b.putString(SurveyFragment.units, units);
         b.putString(SurveyFragment.rating, rating);
+        b.putInt(SurveyFragment.order, ord);
         b.putParcelableArrayList(SurveyFragment.options, options);
         b.putInt("index", index);
 
@@ -113,6 +119,7 @@ public class SurveyFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isEnglish = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("lang",0) == 0;
+
         if (getArguments() != null) {
             gId = getArguments().getInt(SurveyFragment.grpId);
             qId = getArguments().getInt(SurveyFragment.qnsId);
@@ -125,10 +132,28 @@ public class SurveyFragment extends Fragment {
             opt = getArguments().getParcelableArrayList(SurveyFragment.options);
             r = getArguments().getString(SurveyFragment.rating);
             ind = getArguments().getInt("index");
+            ord = getArguments().getInt(SurveyFragment.order);
         }
         answers = new ArrayList<>();
-        qnsWithPgJump = new HashMap<>();
-        fillQnsWithPgJump();
+        noResponseClearWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count>0)
+                    noResponseRadioGroupClearCheck();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        if(ind==0)
+            fillQnsWithPgJump();
     }
 
     public void fillQnsWithPgJump() {
@@ -137,6 +162,7 @@ public class SurveyFragment extends Fragment {
         qnsWithPgJump.put(11, 1);
         qnsWithPgJump.put(24, 1);
         qnsWithPgJump.put(34, 1);
+        qnsWithPgJump.put(74, 1);
     }
 
     @Override
@@ -283,14 +309,18 @@ public class SurveyFragment extends Fragment {
                 e1.setWidth(70);
                 e1.setFilters(filters);
                 e1.setInputType(InputType.TYPE_CLASS_NUMBER);
+                e1.addTextChangedListener(noResponseClearWatcher);
 
                 EditText e2 = new EditText(getActivity());
                 e2.setWidth(70);
                 e2.setFilters(filters);
                 e2.setInputType(InputType.TYPE_CLASS_NUMBER);
+                e2.addTextChangedListener(noResponseClearWatcher);
 
                 TextView e3 = new TextView(getActivity());
                 e3.setText(unitsArr[i]);
+                e3.setTextSize(20);
+                e3.setTextColor(Color.BLACK);
 
                 ll.addView(e1);
                 ll.addView(e2);
@@ -315,6 +345,21 @@ public class SurveyFragment extends Fragment {
 
         l.addView(createNoResponseOption());
         l.addView(createNextAndPrevBtns());
+    }
+    public void clearMonthAndYearDouble() {
+        clearAllEditTextInView((LinearLayout) getActivity().findViewById(R.id.monthDouble));
+        clearAllEditTextInView((LinearLayout) getActivity().findViewById(R.id.yearDouble));
+    }
+
+    public void clearAllEditTextInView(LinearLayout v) {
+        if(v!=null) {
+            for (int i = 0; i < v.getChildCount(); i++) {
+                if (v.getChildAt(i) instanceof EditText) {
+                    EditText e = (EditText) v.getChildAt(i);
+                    e.setText("");
+                }
+            }
+        }
     }
 
     public void createCurrentEmploymentView(View v) {
@@ -349,6 +394,10 @@ public class SurveyFragment extends Fragment {
     public View createDoubleInputWithUnits() {
         String[] unitsArr = u.split("/");
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.double_input_with_units, null);
+        EditText e = (EditText) v.findViewById(R.id.input1);
+        e.addTextChangedListener(noResponseClearWatcher);
+        EditText e2 = (EditText) v.findViewById(R.id.input2);
+        e2.addTextChangedListener(noResponseClearWatcher);
 
         if(unitsArr.length == 2) {
             ((TextView)v.findViewById(R.id.unit1)).setText(unitsArr[0]);
@@ -356,6 +405,17 @@ public class SurveyFragment extends Fragment {
         }
 
         return v;
+    }
+
+    public void clearDoubleInputWithUnits() {
+        View v = getActivity().findViewById(R.id.doubleInput);
+
+        if(v!=null) {
+            EditText e = (EditText) getActivity().findViewById(R.id.input1);
+            e.setText("");
+            EditText e2 = (EditText) getActivity().findViewById(R.id.input2);
+            e2.setText("");
+        }
     }
 
     public void createBargainView(View v) {
@@ -424,18 +484,26 @@ public class SurveyFragment extends Fragment {
     }
 
     public void createCheckBoxes(LinearLayout l) {
+
         for(int i=0; i<opt.size(); i++) {
 
             CheckBox cb = new CheckBox(getActivity());
             cb.setText(opt.get(i).getOption());
-//            TextView tv = new TextView(getActivity());
-//            tv.setText(opt.get(i).getOption());
-//            tv.setTextColor(Color.BLACK);
-            cb.setPadding(0,15,0,15);
+            cb.setPadding(0, 15, 0, 15);
             cb.setTag(opt.get(i).getValue());
+            cb.setId(opt.get(i).getValue());
 
-//            rl.addView(cb);
-//            rl.addView(tv);
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton btnView, boolean isChecked) {
+                    // if noresponse or don't know is selected, deselect other group
+
+                    if (isChecked) {
+                        noResponseRadioGroupClearCheck();
+                        btnView.setChecked(isChecked);
+                    }
+                }
+            });
 
             //if option has input
             if(opt.get(i).getNumOfInput()==1) {
@@ -448,14 +516,59 @@ public class SurveyFragment extends Fragment {
                 EditText e = new EditText(getActivity());
                 e.setId(R.id.othersEditText);
                 e.setWidth(150);
+
                 rl.addView(e);
                 l.addView(rl);
+
+                e.addTextChangedListener(new OthersTextWatcher(rl) {
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (count > 0) {
+                            CheckBox cb = (CheckBox) this.getView().findViewById(R.id.otherBox);
+                            cb.setChecked(true);
+                            noResponseRadioGroupClearCheck();
+                        }
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
                 continue;
             }
 
             l.addView(cb);
         }
 
+    }
+
+    public void clearCheckBoxes() {
+        LinearLayout l = (LinearLayout) vPtr.findViewById(R.id.survey_fragment_layout);
+
+        if(l!=null) {
+            for (int i = 0; i < l.getChildCount(); i++) {
+                if (l.getChildAt(i) instanceof CheckBox) {
+                    CheckBox cb = (CheckBox) l.getChildAt(i);
+                    cb.setChecked(false);
+                }
+            }
+        }
+    }
+
+    public void clearOtherCheckBox() {
+        CheckBox cb = (CheckBox) getActivity().findViewById(R.id.otherBox);
+        if(cb!=null)
+            cb.setChecked(false);
+    }
+
+    public void clearOtherEditText() {
+        EditText e = (EditText) getActivity().findViewById(R.id.othersEditText);
+        if(e!=null)
+            e.setText("");
     }
 
     //*** TODO **** jump to next input when the prev input is filled
@@ -484,12 +597,43 @@ public class SurveyFragment extends Fragment {
             ));
             et.setPadding(20, 0, 0, 0);
             et.setFilters(filters);
+            et.addTextChangedListener(noResponseClearWatcher);
             ll.addView(et);
         }
 
         return ll;
     }
 
+    public void clearYearInput() {
+        LinearLayout ll = (LinearLayout) getActivity().findViewById(R.id.yearLinearLayout);
+
+        if(ll!=null) {
+            for(int i=0; i<ll.getChildCount(); i++) {
+                EditText e = (EditText) ll.getChildAt(i);
+                e.setText("");
+            }
+        }
+    }
+
+    private RadioGroup.OnCheckedChangeListener noResponseChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            // if noresponse or don't know is selected, deselect other group
+
+            if (checkedId != -1) {
+                surveyRadioGroupClearCheck();
+                clearSingleInput();
+                clearYearInput();
+                clearDoubleInputWithUnits();
+                clearMonthAndYearDouble();
+                clearOtherCheckBox();
+                clearRatingGroup();
+                clearOtherEditText();
+                clearCheckBoxes();
+                group.check(checkedId);
+            }
+        }
+    };
     //**** TODO **** when no response is click delete all other input
     public View createNoResponseOption() {
         RadioGroup rg = new RadioGroup(getActivity());
@@ -500,22 +644,13 @@ public class SurveyFragment extends Fragment {
         rb.setId(R.id.noResponse);
         rg.addView(rb);
 
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // if noresponse or don't know is selected, deselect other group
-
-                if (checkedId != -1) {
-                    surveyRadioGroupClearCheck();
-                    group.check(checkedId);
-                }
-            }
-        });
+        rg.setOnCheckedChangeListener(noResponseChangeListener);
 
         rg.setPadding(0,30,0,0);
 
         return rg;
     }
+
 
     public View createNoResponseOrDoesNotKnowOption() {
         RadioGroup rg = new RadioGroup(getActivity());
@@ -535,16 +670,7 @@ public class SurveyFragment extends Fragment {
         rg.addView(rb2);
         rg.addView(rb);
 
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // if noresponse or don't know is selected, deselect other group
-                if (checkedId != -1) {
-                    surveyRadioGroupClearCheck();
-                    group.check(checkedId);
-                }
-            }
-        });
+        rg.setOnCheckedChangeListener(noResponseChangeListener);
 
         return rg;
     }
@@ -570,10 +696,28 @@ public class SurveyFragment extends Fragment {
         TextView leftR = (TextView) child.findViewById(R.id.leftRating);
         TextView rightR = (TextView) child.findViewById(R.id.rightRating);
 
+        RadioGroup rg = (RadioGroup) child.findViewById(R.id.ratingRg);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId!=-1) {
+                    noResponseRadioGroupClearCheck();
+                    group.check(checkedId);
+                }
+            }
+        });
+
         leftR.setText(ratings[0]);
         rightR.setText(ratings[1]);
 
         return child;
+    }
+
+    public void clearRatingGroup() {
+        RadioGroup rg = (RadioGroup) getActivity().findViewById(R.id.ratingRg);
+        if(rg!=null) {
+            rg.clearCheck();
+        }
     }
 
     public View createSingleInputWithUnits() {
@@ -585,6 +729,8 @@ public class SurveyFragment extends Fragment {
         editInput.setWidth(300);
         editInput.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         editInput.setId(R.id.mainInput);
+        editInput.addTextChangedListener(noResponseClearWatcher);
+
         l.addView(editInput);
 
         if(qId == 6 || qId == 9) {
@@ -599,6 +745,13 @@ public class SurveyFragment extends Fragment {
         }
 
         return l;
+    }
+
+    public void clearSingleInput() {
+        EditText et = (EditText) getActivity().findViewById(R.id.mainInput);
+        if(et!=null) {
+            et.setText("");
+        }
     }
 
     public void setNumberInputType(EditText e) {
@@ -663,28 +816,40 @@ public class SurveyFragment extends Fragment {
                 public void afterTextChanged(Editable s) {
                 }
             });
+        }
 
-            rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    // if noresponse or don't know is selected, deselect other group
-                    if (checkedId != -1) {
-                        noResponseRadioGroupClearCheck();
-                        group.check(checkedId);
+        final RadioGroup g1 = (RadioGroup) child.findViewById(R.id.surveyRadioGrp);
+        final RadioGroup g2 = (RadioGroup) child.findViewById(R.id.surveyRadioGrpMore);
+        g1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // if noresponse or don't know is selected, deselect other group
+                if (checkedId != -1) {
+                    noResponseRadioGroupClearCheck();
+                    if(g2!=null) {
+                        g2.clearCheck();
                     }
-
-                    othersInput.setText("");
+                    group.check(checkedId);
                 }
-            });
-        } else {
-            rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+                clearOtherEditText();
+            }
+        });
+
+        if(g2!=null) {
+            g2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     // if noresponse or don't know is selected, deselect other group
                     if (checkedId != -1) {
                         noResponseRadioGroupClearCheck();
+                        if (g1 != null) {
+                            g1.clearCheck();
+                        }
                         group.check(checkedId);
                     }
+
+                    clearOtherEditText();
                 }
             });
         }
@@ -1020,8 +1185,9 @@ public class SurveyFragment extends Fragment {
             } else {
                 skipPrevPage();
             }
+        } else {
+            flipPrevPage();
         }
-        flipPrevPage();
     }
 
     public void startActivityWithRandomNum(int randNum) {
