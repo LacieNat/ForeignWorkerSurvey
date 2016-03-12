@@ -164,12 +164,12 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
         //*** TODO: INSERT INFO PAGES ****
         //for each group
         //
-        //for(int i=0; i<cGrp.getCount(); i++) {
-        for(int i=1; i<2; i++){
+        for(int i=0; i<cGrp.getCount(); i++) {
+        //for(int i=1; i<2; i++){
             String groupName = isEnglish?cGrp.getString(cGrp.getColumnIndexOrThrow("title")):cGrp.getString(cGrp.getColumnIndexOrThrow("titleBahasa"));
             int groupId = cGrp.getInt(cGrp.getColumnIndexOrThrow("id"));
 
-            groupId = 4;
+            //groupId = 7;
 
             cQns = db.getSurveyQnsInOrder(groupId);
 

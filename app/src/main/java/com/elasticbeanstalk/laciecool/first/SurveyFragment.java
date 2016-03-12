@@ -31,6 +31,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -404,6 +405,11 @@ public class SurveyFragment extends Fragment {
             ((TextView)v.findViewById(R.id.unit2)).setText(unitsArr[1]);
         }
 
+        if(qId == 20 || qId == 78 || qId == 79 || qId == 80) {
+            setNumberInputType(e);
+            setNumberInputType(e2);
+        }
+
         return v;
     }
 
@@ -732,8 +738,8 @@ public class SurveyFragment extends Fragment {
         editInput.addTextChangedListener(noResponseClearWatcher);
 
         l.addView(editInput);
-
-        if(qId == 6 || qId == 9) {
+        Integer numberInputIds[] = new Integer[] {6,9,15,17,76,77,81,21,22,27,45,47,49};
+        if(Arrays.asList(numberInputIds).contains(qId)) {
             setNumberInputType(editInput);
         }
 
@@ -1576,6 +1582,22 @@ public class SurveyFragment extends Fragment {
                 timeCat = "pm";
             }
 
+            if(hrTen.trim().equals("")) {
+                hrTen = "0";
+            }
+
+            if(hrOne.trim().equals("")) {
+                hrOne = "0";
+            }
+
+            if(minTen.trim().equals("")) {
+                minTen = "0";
+            }
+
+            if(minOne.trim().equals("")) {
+                minOne = "0";
+            }
+
             answers.add(hrTen+hrOne+minTen+minOne + timeCat);
         }
     }
@@ -1587,8 +1609,11 @@ public class SurveyFragment extends Fragment {
             EditText et1 = (EditText) vPtr.findViewById(R.id.input1);
             EditText et2 = (EditText) vPtr.findViewById(R.id.input2);
 
-            answers.add(et1.getText().toString());
-            answers.add(et2.getText().toString());
+            String s1 = et1.getText().toString().trim().equals("")?"0":et1.getText().toString();
+            String s2 = et2.getText().toString().trim().equals("")?"0":et2.getText().toString();
+
+            answers.add(s1);
+            answers.add(s2);
         }
     }
 

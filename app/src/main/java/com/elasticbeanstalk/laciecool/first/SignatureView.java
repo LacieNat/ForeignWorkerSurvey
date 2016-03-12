@@ -32,7 +32,6 @@ public class SignatureView extends View {
     public SignatureView(Context c, AttributeSet attrs) {
         super(c, attrs);
         context = c;
-        this.setDrawingCacheEnabled(true);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(6f);
         paint.setColor(Color.BLACK);
@@ -50,8 +49,9 @@ public class SignatureView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        //canvas.setBitmap(mBitmap);
         super.onDraw(canvas);
-        //canvas.drawBitmap(mBitmap, 0, 0, paint);
+        canvas.drawBitmap(mBitmap, 0, 0, paint);
         canvas.drawPath(path, paint);
     }
 
@@ -78,15 +78,18 @@ public class SignatureView extends View {
 
     private void upTouch() {
         path.lineTo(mX, mY);
+        mCanvas.drawPath(path, paint);
+        path.reset();
     }
 
     public void clearCanvas() {
         path.reset();
+        mBitmap.eraseColor(Color.TRANSPARENT);
         invalidate();
     }
 
     public void saveImage(String pid) {
-
+        this.setDrawingCacheEnabled(true);
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+pid+".png");
@@ -95,12 +98,15 @@ public class SignatureView extends View {
         }
 
         this.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 95, fos);
+        this.setDrawingCacheEnabled(false);
     }
 
     public boolean isCanvasEmpty() {
-        Bitmap curr = this.getDrawingCache();
+        //return false;
+        //this.setDrawingCacheEnabled(true);
+        Bitmap curr = mBitmap;
         Bitmap emptyBm = Bitmap.createBitmap(curr.getWidth(), curr.getHeight(), curr.getConfig());
-
+        //this.setDrawingCacheEnabled(false);
         return curr.sameAs(emptyBm);
     }
 

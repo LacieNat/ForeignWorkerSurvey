@@ -66,9 +66,9 @@ public class RandomThreeActivity extends FragmentActivity {
 
             for (int i = 0; i < 3; i++) {
 
-                if(!userAns.get(Integer.toString(qnsId)).equals("99") && !userAns.get(Integer.toString(qnsId)).equals("-1")) {
+                //if(!userAns.get(Integer.toString(qnsId)).equals(GlobalValues.noRespValue) && !userAns.get(Integer.toString(qnsId)).equals(GlobalValues.dkValue)) {
                     fList.add(RandomThreeActivityFragment.newInstance(qnsId, qns, userAns.get(key), i, pageIndex++));
-                }
+                //}
 
             }
 

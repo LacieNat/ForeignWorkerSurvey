@@ -3,6 +3,7 @@ package com.elasticbeanstalk.laciecool.first;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -81,30 +82,38 @@ public class RandomThreeActivityFragment extends Fragment {
 
             TextView uaView = (TextView) v.findViewById(R.id.userAns);
 
-            if(qId == 31) {
-                switch(ua) {
-                    case "-1":
-                        uaView.setText("Don't Know");
-                        break;
-                    case "99":
-                        uaView.setText("No Response");
-                        break;
-                    case "1":
-                        uaView.setText("Never");
-                        break;
-                    case "2":
-                        uaView.setText("Rarely");
-                        break;
-                    case "3":
-                        uaView.setText("Sometimes");
-                        break;
-                    case "4":
-                        uaView.setText("Often");
-                        break;
-                    case "5":
-                        uaView.setText("Always");
-                        break;
+            if(ua.equals("99") || ua.equals("")) {
+                if(isEnglish) {
+                    uaView.setText(GlobalValues.noRespEnglish);
+                } else {
+                    uaView.setText(GlobalValues.noRespBahasa);
                 }
+            }
+
+            else if(qId == 31) {
+                SurveySQL db = new SurveySQL(getActivity());
+                Cursor c = db.getOptionsFromQnsId(31);
+                if(ua.equals("99")) {
+                    if(isEnglish) {
+                        uaView.setText(GlobalValues.noRespEnglish);
+                    } else {
+                        uaView.setText(GlobalValues.noRespBahasa);
+                    }
+                } else {
+                    c.moveToFirst();
+                    for(int i=0; i<c.getCount(); i++) {
+                        if(c.getInt(c.getColumnIndexOrThrow("value")) == Integer.parseInt(ua)) {
+                            if(isEnglish)
+                                uaView.setText(c.getString(c.getColumnIndexOrThrow("option")));
+                            else
+                                uaView.setText(c.getString(c.getColumnIndexOrThrow("optionBahasa")));
+
+                        }
+
+                        c.moveToNext();
+                    }
+                }
+
             } else {
                 uaView.setText(ua);
             }
@@ -128,8 +137,10 @@ public class RandomThreeActivityFragment extends Fragment {
                 setImage(iv, R.drawable.freedom_main_scale, R.drawable.freedom_main_scale_b);
         }
 
-         else if (fi==2){    //fi == 3
-            v = inflater.inflate(R.layout.fragment_random_three_two, container, false);
+         else if (fi==2){
+            v = isEnglish?
+                    inflater.inflate(R.layout.fragment_random_three_two, container, false):
+                    inflater.inflate(R.layout.fragment_random_three_two_bahasa, container, false);
             ImageView iv = (ImageView) v.findViewById(R.id.imageRandomThreeMain);
             int ans = Integer.parseInt(ua);
             if(qId == 22) {

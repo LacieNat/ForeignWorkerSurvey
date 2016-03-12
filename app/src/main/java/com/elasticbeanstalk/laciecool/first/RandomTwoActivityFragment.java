@@ -89,6 +89,10 @@ public class RandomTwoActivityFragment extends Fragment {
                 inflater.inflate(R.layout.fragment_random_two, container, false):
                 inflater.inflate(R.layout.fragment_random_two_bahasa, container, false);
 
+        if(pi == 0) {
+            (v.findViewById(R.id.randomTwoPrev)).setEnabled(false);
+        }
+
         //populate user ans and right ans;
         TextView resultQns = (TextView) v.findViewById(R.id.resultQns);
         resultQns.setText(q);
@@ -135,7 +139,7 @@ public class RandomTwoActivityFragment extends Fragment {
         if(isEnglish) {
             if (ans.equals("1")) {
                 v.setText(GlobalValues.trueEnglish);
-            } else if (ua.equals("99")) {
+            } else if (ans.equals(GlobalValues.noRespValue)) {
                 v.setText(GlobalValues.noRespEnglish);
             } else {
                 v.setText(GlobalValues.falseEnglish);
@@ -143,7 +147,7 @@ public class RandomTwoActivityFragment extends Fragment {
         } else {
             if (ans.equals("1")) {
                 v.setText(GlobalValues.trueBahasa);
-            } else if (ua.equals("99")) {
+            } else if (ans.equals(GlobalValues.noRespValue)) {
                 v.setText(GlobalValues.noRespBahasa);
             } else {
                 v.setText(GlobalValues.falseBahasa);
