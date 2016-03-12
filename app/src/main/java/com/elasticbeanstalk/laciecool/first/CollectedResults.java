@@ -1,8 +1,10 @@
 package com.elasticbeanstalk.laciecool.first;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Environment;
 
 import java.io.File;
@@ -28,6 +30,18 @@ public class CollectedResults extends SQLiteOpenHelper {
     private CollectedResults(Context con) {
         super(con, Environment.getExternalStorageDirectory() + File.separator + DB_NAME, null, 1);
         this.c = con;
+    }
+
+    public Cursor getAllResults() {
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        qb.setTables("RESULTS");
+
+        Cursor c = qb.query(db, null, null, null, null, null, "pid ASC");
+        c.moveToFirst();
+
+        return c;
     }
 
     @Override

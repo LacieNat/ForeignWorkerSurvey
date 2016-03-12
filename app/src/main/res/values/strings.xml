@@ -67,4 +67,5 @@ Dengan ini saya menyatakan bahwa penelitian ini telah dijelaskan kepada saya dan
     <string name="title_activity_random_two">RandomTwoActivity</string>
     <string name="title_activity_random_three">RandomThreeActivity</string>
     <string name="title_activity_phone_num_info">PhoneNumInfoActivity</string>
+    <string name="title_activity_generate_results">GenerateResults</string>
 </resources>

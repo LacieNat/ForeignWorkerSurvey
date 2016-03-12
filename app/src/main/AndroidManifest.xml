@@ -50,7 +50,11 @@
             android:label="@string/title_activity_random_three"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PhoneNumberActivity" />
-        <activity android:name=".TreatmentInfoActivity"></activity>
+        <activity android:name=".TreatmentInfoActivity" />
+        <activity
+            android:name=".GenerateResults"
+            android:label="@string/title_activity_generate_results"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

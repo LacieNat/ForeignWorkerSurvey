@@ -37,6 +37,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.language);
     }
 
+    public void goToAdmin(View v) {
+        Intent i = new Intent(this, GenerateResults.class);
+        startActivity(i);
+    }
+
     public void langSelect(View view) {
         SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
         int id = ((RadioGroup) this.findViewById(R.id.language)).getCheckedRadioButtonId();

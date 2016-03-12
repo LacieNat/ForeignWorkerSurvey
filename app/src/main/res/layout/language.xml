@@ -5,6 +5,14 @@
     android:paddingLeft="50px"
     android:paddingTop="100px">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Admin"
+        android:id="@+id/admin"
+        android:onClick="goToAdmin"
+        android:layout_gravity="right" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

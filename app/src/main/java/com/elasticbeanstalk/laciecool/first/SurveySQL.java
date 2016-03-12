@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQuery;
 import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
@@ -46,6 +47,17 @@ public class SurveySQL extends SQLiteAssetHelper {
         qb.setTables(TABLES.QNS);
 
         Cursor c = qb.query(db, null, "grp="+grp, null, null, null, "ord ASC");
+        c.moveToFirst();
+        return c;
+    }
+
+    public Cursor getVariablesInOrder() {
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        qb.setTables(TABLES.QNS);
+
+        Cursor c = qb.query(db, new String[]{"variable"}, null, null, null, null, "ord ASC");
         c.moveToFirst();
         return c;
     }
