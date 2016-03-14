@@ -30,12 +30,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Previous"
+                android:onClick="onPrev"
                 android:id="@+id/randomPrev" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Next"
+                android:onClick="onNext"
                 android:id="@+id/randomNext" />
         </LinearLayout>
 

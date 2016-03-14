@@ -446,8 +446,19 @@ public class RandomThreeActivityFragment extends Fragment {
         //if last fragment, go end activity
         int childCount = ((RandomThreeActivity) getActivity()).getFragmentSize();
         if(pi == childCount - 1) {
-            Intent i = new Intent(getActivity(), EndActivity.class);
-            startActivity(i);
+            SharedPreferences sp = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+            int rn = sp.getInt("randNum", -1);
+
+            if(rn == 5) {
+                Intent i = getActivity().getIntent();
+                i.setClass(getActivity(),RandomFourActivity.class);
+                startActivity(i);
+            }
+
+            else {
+                Intent i = new Intent(getActivity(), EndActivity.class);
+                startActivity(i);
+            }
         }
 
         //else set the next page as current page

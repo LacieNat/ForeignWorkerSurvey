@@ -17,17 +17,22 @@ public class RandomFourActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.display_pdf);
-
         SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
+
+        if (sp.getInt("lang", 0) == 0) {
+            setContentView(R.layout.display_pdf);
+        } else {
+            setContentView(R.layout.display_pdf_bahasa);
+        }
+
         TouchImageView iv = (TouchImageView) this.findViewById(R.id.displayPdf);
 //        iv.setZoom(1);
 //        iv.setMaxZoom(5);
-        if (sp.getInt("lang", 0) == 0) {
-            iv.setImageResource(R.drawable.job_vacancy);
-        } else {
-            iv.setImageResource(R.drawable.job_vacancy_bahasa);
-        }
+
+        iv.setImageResource(R.drawable.job_vacancy);
+
+        Button b = (Button) this.findViewById(R.id.randomPrev);
+        b.setVisibility(View.GONE);
     }
 
     @Override
@@ -37,7 +42,7 @@ public class RandomFourActivity extends Activity {
         return true;
     }
 
-    public void onNextClick(View v) {
+    public void onNext(View v) {
         Intent i = new Intent(this, EndActivity.class);
         startActivity(i);
     }

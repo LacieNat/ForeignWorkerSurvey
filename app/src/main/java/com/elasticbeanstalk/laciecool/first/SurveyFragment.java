@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
@@ -645,7 +646,10 @@ public class SurveyFragment extends Fragment {
         RadioGroup rg = new RadioGroup(getActivity());
         rg.setId(R.id.noResponseRg);
         RadioButton rb = new RadioButton(getActivity());
-        rb.setText("No response");
+        if(isEnglish)
+            rb.setText(GlobalValues.noRespEnglish);
+        else
+            rb.setText(GlobalValues.noRespBahasa);
         rb.setPadding(0, 15, 0, 15);
         rb.setId(R.id.noResponse);
         rg.addView(rb);
@@ -664,12 +668,18 @@ public class SurveyFragment extends Fragment {
         rg.setId(R.id.noResponseRg);
 
         RadioButton rb = new RadioButton(getActivity());
-        rb.setText("No response");
+        if(isEnglish)
+            rb.setText(GlobalValues.noRespEnglish);
+        else
+            rb.setText(GlobalValues.noRespBahasa);
         rb.setPadding(0, 15, 0, 15);
         rb.setId(R.id.noResponse);
 
         RadioButton rb2 = new RadioButton(getActivity());
-        rb2.setText("Don't Know");
+        if(isEnglish)
+            rb2.setText(GlobalValues.dkEnglish);
+        else
+            rb2.setText(GlobalValues.dkBahasa);
         rb2.setPadding(0, 15, 0, 15);
         rb2.setId(R.id.dontKnow);
 

@@ -46,6 +46,9 @@
             android:name=".RandomTwoActivity"
             android:label="@string/title_activity_random_two" />
         <activity
+            android:name=".RandomFourActivity"
+            android:label="RandomFourActivity" />
+        <activity
             android:name=".RandomThreeActivity"
             android:label="@string/title_activity_random_three"
             android:theme="@style/AppTheme.NoActionBar" />
