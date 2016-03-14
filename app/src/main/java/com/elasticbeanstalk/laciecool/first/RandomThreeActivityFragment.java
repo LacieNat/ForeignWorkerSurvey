@@ -278,15 +278,15 @@ public class RandomThreeActivityFragment extends Fragment {
                     setImage(iv, R.drawable.hours_1b, R.drawable.hours_1b_b);
                 }
 
-                else if(ans>8 && ans<=10) {
+                else if(ans>=8 && ans<10) {
                     setImage(iv, R.drawable.hours_2b, R.drawable.hours_2b_b);
                 }
 
-                else if(ans>10 && ans<=12)  {
+                else if(ans>=10 && ans<12)  {
                     setImage(iv, R.drawable.hours_3b, R.drawable.hours_3b_b);
                 }
 
-                else if(ans>12 && ans<=14) {
+                else if(ans>=12 && ans<14) {
                     setImage(iv, R.drawable.hours_4b, R.drawable.hours_4b_b);
                 }
 
@@ -336,7 +336,7 @@ public class RandomThreeActivityFragment extends Fragment {
                     setImage(iv, R.drawable.freedom_5b, R.drawable.freedom_5b_b);
                 }
             }
-        } else {
+        } else if(fi==4){
             v = isEnglish?
                     inflater.inflate(R.layout.fragment_random_three_two, container, false):
                     inflater.inflate(R.layout.fragment_random_three_two_bahasa, container, false);
@@ -401,10 +401,23 @@ public class RandomThreeActivityFragment extends Fragment {
                 }
 
             }
+        } else {
+            if(isEnglish)
+                v = inflater.inflate(R.layout.display_pdf, container, false);
+            else
+                v = inflater.inflate(R.layout.display_pdf_bahasa, container, false);
+
+            TouchImageView tiv = (TouchImageView) v.findViewById(R.id.displayPdf);
+
+            if(isEnglish)
+                tiv.setImageResource(R.drawable.employment);
+            else
+                tiv.setImageResource(R.drawable.employment_bahasa);
+
         }
 
-        Button btnN = (Button) v.findViewById(R.id.randomThreeNext);
-        Button btnP = (Button) v.findViewById(R.id.randomThreePrev);
+        Button btnN = (Button) v.findViewById(R.id.randomNext);
+        Button btnP = (Button) v.findViewById(R.id.randomPrev);
 
         btnP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

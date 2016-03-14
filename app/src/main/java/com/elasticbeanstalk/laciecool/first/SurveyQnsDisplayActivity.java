@@ -168,8 +168,11 @@ public class SurveyQnsDisplayActivity extends FragmentActivity {
         //for(int i=1; i<2; i++){
             String groupName = isEnglish?cGrp.getString(cGrp.getColumnIndexOrThrow("title")):cGrp.getString(cGrp.getColumnIndexOrThrow("titleBahasa"));
             int groupId = cGrp.getInt(cGrp.getColumnIndexOrThrow("id"));
-
-            //groupId = 7;
+            //groupId = 4;
+//            if(i==1)
+//                groupId = 2;
+//            else
+//                groupId = 3;
 
             cQns = db.getSurveyQnsInOrder(groupId);
 

@@ -68,6 +68,8 @@ public class RandomTwoActivity extends FragmentActivity {
             cQns.moveToNext();
         }
 
+        fList.add(RandomTwoActivityFragment.newInstance("", "", "", 5));
+
         return fList;
     }
 

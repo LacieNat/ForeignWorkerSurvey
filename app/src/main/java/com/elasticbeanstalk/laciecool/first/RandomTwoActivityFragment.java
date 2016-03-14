@@ -9,6 +9,7 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,15 +83,52 @@ public class RandomTwoActivityFragment extends Fragment {
 
     }
 
+    public View createDisplayPdfView(LayoutInflater inflater, ViewGroup container) {
+        boolean isEnglish = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("lang", 0)==0;
+        View v;
+        if(isEnglish)
+            v = inflater.inflate(R.layout.display_pdf, container, false);
+        else
+            v = inflater.inflate(R.layout.display_pdf_bahasa, container, false);
+        TouchImageView tiv = (TouchImageView) v.findViewById(R.id.displayPdf);
+
+        if(isEnglish) {
+            tiv.setImageResource(R.drawable.labour_regulation);
+        } else {
+            tiv.setImageResource(R.drawable.labour_regulation_bahasa);
+        }
+
+        Button btnN = (Button) v.findViewById(R.id.randomNext);
+        Button btnP = (Button) v.findViewById(R.id.randomPrev);
+
+        btnP.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onPrev(v);
+            }
+        });
+
+        btnN.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onNext(v);
+            }
+        });
+
+        return v;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if(pi == 5)
+            return createDisplayPdfView(inflater, container);
+
         View v = getActivity().getSharedPreferences("sessionData", Context.MODE_PRIVATE).getInt("lang", 0)==0?
                 inflater.inflate(R.layout.fragment_random_two, container, false):
                 inflater.inflate(R.layout.fragment_random_two_bahasa, container, false);
 
         if(pi == 0) {
-            (v.findViewById(R.id.randomTwoPrev)).setEnabled(false);
+            (v.findViewById(R.id.randomPrev)).setEnabled(false);
         }
 
         //populate user ans and right ans;
@@ -115,8 +153,8 @@ public class RandomTwoActivityFragment extends Fragment {
             userAnsText.setTextColor(Color.RED);
         }
 
-        Button btnN = (Button) v.findViewById(R.id.randomTwoNext);
-        Button btnP = (Button) v.findViewById(R.id.randomTwoPrev);
+        Button btnN = (Button) v.findViewById(R.id.randomNext);
+        Button btnP = (Button) v.findViewById(R.id.randomPrev);
 
         btnP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

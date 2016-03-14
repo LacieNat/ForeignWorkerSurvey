@@ -38,7 +38,7 @@ public class TreatmentInfoActivity extends Activity {
 
         switch(randNum) {
             case 1:
-                lv.addView(tLabour);
+                //lv.addView(tLabour);
                 break;
             case 2:
                 lv.addView(tLabour);
@@ -70,7 +70,7 @@ public class TreatmentInfoActivity extends Activity {
                 i.setClass(this, RandomThreeActivity.class);
                 break;
             case 4:
-                i.setClass(this, EndActivity.class);
+                i.setClass(this, RandomFourActivity.class);
                 break;
             case 5:
                 i.setClass(this, RandomTwoActivity.class);

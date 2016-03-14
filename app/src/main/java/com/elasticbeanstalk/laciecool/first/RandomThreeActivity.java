@@ -58,8 +58,9 @@ public class RandomThreeActivity extends FragmentActivity {
 
         //SurveySQL.forceDatabaseReload(this);
         db = new SurveySQL(this);
-
-        for(String key: userAns.keySet()) {
+        int qids[] = new int[] {22,81,21,31};
+        for(int j=0; j<qids.length; j++) {
+            String key = Integer.toString(qids[j]);
             Cursor cQns = db.getSurveyQnsFromQnsId(Integer.parseInt(key));
             String qns = isEnglish?cQns.getString(cQns.getColumnIndexOrThrow("qns")):cQns.getString(cQns.getColumnIndexOrThrow("qnsBahasa"));
             int qnsId = cQns.getInt(cQns.getColumnIndexOrThrow("id"));
@@ -82,6 +83,8 @@ public class RandomThreeActivity extends FragmentActivity {
 
             cQns.moveToNext();
         }
+
+        fList.add(RandomThreeActivityFragment.newInstance(-1, "", "", 5, pageIndex++));
 
         return fList;
     }

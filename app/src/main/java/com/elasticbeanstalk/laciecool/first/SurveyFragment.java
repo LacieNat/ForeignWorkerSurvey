@@ -1149,7 +1149,13 @@ public class SurveyFragment extends Fragment {
 
         else if(qnsWithPgJump.containsKey(qId)) {
             int ans = qnsWithPgJump.get(qId);
-            if(ans == 1) {
+            if(qId == 11 && ans == 1) {
+                skipNextPage();
+            }
+            else if(qId == 11) {
+                flipNextPage();
+            }
+            else if(ans == 1) {
                 flipNextPage();
             } else {
                 skipNextPage();
@@ -1186,7 +1192,15 @@ public class SurveyFragment extends Fragment {
         if(qnsWithPgJump.containsKey(qId-2)) {
             int ans = qnsWithPgJump.get(qId-2);
 
-            if(ans == 1) {
+            if(qId == 13 && ans == 1) {
+                skipPrevPage();
+            }
+
+            else if(qId == 13) {
+                flipPrevPage();
+            }
+
+            else if(ans == 1) {
                 flipPrevPage();
             } else {
                 skipPrevPage();
