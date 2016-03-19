@@ -178,15 +178,15 @@ public class RandomThreeActivityFragment extends Fragment {
                     setImage(iv, R.drawable.hours_1a, R.drawable.hours_1a_b);
                 }
 
-                else if(ans>8 && ans<=10) {
+                else if(ans>=8 && ans<10) {
                     setImage(iv, R.drawable.hours_2a, R.drawable.hours_2a_b);
                 }
 
-                else if(ans>10 && ans<=12)  {
+                else if(ans>=10 && ans<12)  {
                     setImage(iv, R.drawable.hours_3a, R.drawable.hours_3a_b);
                 }
 
-                else if(ans>12 && ans<=14) {
+                else if(ans>=12 && ans<14) {
                     setImage(iv, R.drawable.hours_4a, R.drawable.hours_4a_b);
                 }
 
@@ -360,15 +360,15 @@ public class RandomThreeActivityFragment extends Fragment {
 
             else if(qId == 81) {
 
-                if(ans>8 && ans<=10) {
+                if(ans>=8 && ans<10) {
                     setImage(iv, R.drawable.hours_2c, R.drawable.hours_2c_b);
                 }
 
-                else if(ans>10 && ans<=12)  {
+                else if(ans>=10 && ans<12)  {
                     setImage(iv, R.drawable.hours_3c, R.drawable.hours_3c_b);
                 }
 
-                else if(ans>12 && ans<=14) {
+                else if(ans>=12 && ans<14) {
                     setImage(iv, R.drawable.hours_4c, R.drawable.hours_4c_b);
                 }
 

@@ -109,7 +109,7 @@ public class RandomThreeActivity extends FragmentActivity {
 
         else if(qId == 81) {
 
-            if(ans<8 || ans >14) {
+            if(ans<8 || ans >=14) {
                 hpc = false;
             }
         }

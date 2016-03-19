@@ -93,7 +93,7 @@ public class IntroductionQnsActivity extends FragmentActivity {
 
 
 
-        u = new User(userId, 1);
+        u = new User(userId, 19);
         e.putInt("userId", userId + 1);
         e.commit();
     }
@@ -150,10 +150,10 @@ public class IntroductionQnsActivity extends FragmentActivity {
         SharedPreferences sp = getSharedPreferences("sessionData", Context.MODE_PRIVATE);
         SharedPreferences.Editor e = sp.edit();
         e.putInt("randNum", randomNum);
-        //e.putInt("randNum", 4);
+        //e.putInt("randNum", 3);
         e.commit();
 
-        //return 4;
+        //return 3;
         return randomNum;
     }
 
